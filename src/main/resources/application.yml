@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: py0081.
+    url: jdbc:mysql://182.254.201.74/lesson?characterEncoding=utf-8
+#  jpa:
+#    show-sql: true
+#  jackson:
+#    default-property-inclusion: non_null
+#  redis:
+#    host: 192.168.30.113
+#    port: 6379
+#server:
+#  context-path: /sell
+#logging:
+#  pattern:
+#    console: "%d - %msg%n"
+##  path: /var/log/tomcat/
+#  file: /var/log/tomcat/sell.log
+#  level:
+#    com.imooc.LoggerTest: debug
