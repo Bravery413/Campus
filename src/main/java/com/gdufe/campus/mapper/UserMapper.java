@@ -18,7 +18,7 @@ public interface UserMapper {
     List<UserDO> findAll();
 
     @Select("select * from user where id=#{id}")
-    UserDO findById(int id);
+    UserDO findById(Long id);
 
     @Select("select * from user where account=#{account}")
     UserDO findByAccount(String account);

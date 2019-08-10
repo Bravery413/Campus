@@ -1,6 +1,7 @@
 package com.gdufe.campus.service;
 
 
+import com.gdufe.campus.pojo.DTO.UserDTO;
 
 /**
  * @author: Bravery
@@ -9,5 +10,16 @@ package com.gdufe.campus.service;
 
 
 public interface UserService {
+
+    UserDTO login(UserDTO user);
+
+    UserDTO findUserById(Long id);
+
+    boolean checkAccount(String account);
+
+    int save(UserDTO userDTO);
+
+
+
 
 }
