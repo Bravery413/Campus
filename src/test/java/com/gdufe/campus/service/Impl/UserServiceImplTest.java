@@ -1,5 +1,6 @@
 package com.gdufe.campus.service.Impl;
 
+import com.gdufe.campus.enums.ResultEnum;
 import com.gdufe.campus.pojo.DTO.UserDTO;
 import com.gdufe.campus.service.UserService;
 import org.junit.Assert;
@@ -34,6 +35,9 @@ public class UserServiceImplTest {
 
     @Test
     public void checkAccount() {
+        System.out.println(ResultEnum.PASSWORD_ERROR);
+        System.out.println(ResultEnum.PASSWORD_ERROR.getCode());
+        System.out.println(ResultEnum.PASSWORD_ERROR.getMessage());
         boolean result = userService.checkAccount("pyaaaaa");
         System.out.println(result);
         Assert.assertEquals(true,result);

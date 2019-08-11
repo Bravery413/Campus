@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public UserDTO login(UserDTO user) {
+    public UserDTO login(UserDTO user) throws BusinessException {
         if (user == null || StringUtils.isNullOrEmpty(user.getAccount()) || StringUtils.isNullOrEmpty(user.getPassword())) {
             log.error("[用户登录] 用户账号或者密码不存在 user={}", user);
             throw new BusinessException(ResultEnum.PARAM_EMPTY);
