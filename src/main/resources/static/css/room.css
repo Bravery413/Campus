@@ -1,0 +1,252 @@
+* {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+}
+
+.head {
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+    height: 8%;
+    background-color: #ECECEC;
+}
+
+.head .left {
+    display: inline-block;
+    margin-left: 10px;
+    width: 10%;
+    height: 100%;
+}
+
+.head .left img {
+    margin-top: 7px;
+    width: 75%;
+    height: 75%;
+}
+
+.head .center {
+    display: inline-block;
+    position: absolute;
+    width: 200px;
+    height: 100%;
+    left: 40%;
+    top: 30%;
+}
+
+.head .center span {
+    font-weight: 600;
+    color: black;
+    font-size: 17px;
+}
+
+.head .right {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    width: 10%;
+    background-color: #E8E4E1;
+    height: 100%;
+}
+
+.head .right img {
+    margin-left: 3px;
+    margin-top: 5px;
+    width: 80%;
+    height: 80%;
+}
+/* 聊天主体框 */
+
+.chat {
+    position: relative;
+    top: 8%;
+    width: 100%;
+    /*height: 92%;*/
+    background-color: #FAFAFA;
+    padding-top: 10px;
+    padding-bottom: 50px;
+}
+
+.chat .left {
+    position: relative;
+    width: 100%;
+    height: 13%;
+    /* border: 1px solid black; */
+}
+
+.chat .left .name {
+    position: absolute;
+    top: 10px;
+    left: 90px;
+    width: 100px;
+    height: 15px;
+    /* border: 1px solid black; */
+}
+
+.chat .left .name span {
+    text-align: center;
+    line-height: 15px;
+}
+
+.chat .left .img_wrapper {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 50px;
+    height: 50px;
+    /* border: 1px solid black; */
+}
+
+.chat .left .img_wrapper img {
+    width: 100%;
+    height: 100%;
+}
+
+.chat .left .text_wrapper {
+    display: inline-block;
+    position: absolute;
+    left: 75px;
+    top: 30px;
+    /* width: 75%; */
+    height: 40px;
+    /* border: 1px solid black; */
+}
+
+.chat .left .text_wrapper span {
+    position: absolute;
+    left: 15px;
+    display: inline-block;
+    /* width: 100%; */
+    width: auto;
+    height: 100%;
+    /* border: 1px solid black; */
+    border-radius: 10px;
+    background-color: #FFF;
+    line-height: 35px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+/* 右边 */
+
+.chat .right {
+    position: relative;
+    width: 100%;
+    height: 13%;
+    /* border: 1px solid black; */
+}
+
+.chat .right .name {
+    position: absolute;
+    top: 10px;
+    right: 70px;
+    width: 80px;
+    height: 15px;
+    /* border: 1px solid black; */
+}
+
+.chat .right .name span {
+    text-align: center;
+    line-height: 15px;
+}
+
+.chat .right .img_wrapper {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 50px;
+    height: 50px;
+    /* border: 1px solid black; */
+}
+
+.chat .right .img_wrapper img {
+    width: 100%;
+    height: 100%;
+}
+
+.chat .right .text_wrapper {
+    display: inline-block;
+    position: absolute;
+    right: 75px;
+    top: 30px;
+    /* width: 75%; */
+    height: 40px;
+    /* border: 1px solid black; */
+}
+
+.chat .right .text_wrapper span {
+    position: absolute;
+    right: 10px;
+    /* display: inline-block; */
+    /* width: 100%; */
+    width: auto;
+    height: 100%;
+    /* border: 1px solid black; */
+    border-radius: 7px;
+    background-color: #A9E97B;
+    line-height: 35px;
+    text-align: right;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* 底部框 */
+
+.bottom {
+    position: fixed;
+    bottom: 0;
+    background-color: #F6F6F6;
+    width: 100%;
+    height: 50px;
+}
+
+.bottom .left {
+    display: inline-block;
+    display: absolute;
+    width: 12%;
+    height: 100%;
+}
+
+.bottom .left img {
+    /*margin-top: 3px;*/
+    width: 90%;
+    height: 90%;
+}
+
+.bottom .center {
+    position: absolute;
+    background-color: #FFFFFF;
+    display: inline-block;
+    width: 63%;
+    height: 80%;
+    top: 15%;
+}
+
+.bottom .center input {
+    border: none;
+    height: 100%;
+}
+
+.bottom .right {
+    display: inline-block;
+    position: absolute;
+    width: 22%;
+    height: 100%;
+    right: 0;
+}
+.bottom .right input {
+    float: left;
+    width: 100%;
+    height: 100%;
+}
+
+.bottom .right img {
+    float: left;
+    width: 50%;
+}
+
+
