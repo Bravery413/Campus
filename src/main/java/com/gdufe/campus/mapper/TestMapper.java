@@ -1,8 +1,6 @@
 package com.gdufe.campus.mapper;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.gdufe.campus.pojo.DO.Lesson;
 import com.gdufe.campus.pojo.DO.LessonDO;
 
 /**
@@ -12,4 +10,6 @@ import com.gdufe.campus.pojo.DO.LessonDO;
 
 
 public interface TestMapper extends BaseMapper<LessonDO> {
+
+
 }

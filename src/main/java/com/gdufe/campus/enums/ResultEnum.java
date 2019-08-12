@@ -9,7 +9,9 @@ public enum ResultEnum {
     PARAM_EMPTY(2, "参数为空"),
     EMAIL_ERROR(3, "注册邮件发送失败"),
 
-    PASSWORD_ERROR(10,"账号不存在或密码错误")
+    PASSWORD_ERROR(10,"账号不存在或密码错误"),
+
+    SYSTEM_ERROR(100, "系统错误")
     ;
     private Integer code;
 

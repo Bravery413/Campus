@@ -18,6 +18,9 @@ public interface LessonMapper {
     @Select("select * from lesson ")
     List<LessonDO> findAll();
 
+    @Select("select * from lesson where uid=#{uid} ")
+    List<LessonDO> findByUser(Long uid);
+
     @Select("select * from lesson where id=#{id}")
     LessonDO findById(Long id);
 

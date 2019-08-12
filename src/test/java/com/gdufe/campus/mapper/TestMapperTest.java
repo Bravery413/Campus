@@ -1,6 +1,5 @@
 package com.gdufe.campus.mapper;
 
-import com.gdufe.campus.pojo.DO.Lesson;
 import com.gdufe.campus.pojo.DO.LessonDO;
 import org.junit.Assert;
 import org.junit.Test;
