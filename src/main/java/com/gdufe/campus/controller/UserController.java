@@ -35,7 +35,6 @@ public class UserController {
     @GetMapping("/loginPage")
     public String loginPage(Model model) {
         return "user/login";
-
     }
 
     @PostMapping("/login")
