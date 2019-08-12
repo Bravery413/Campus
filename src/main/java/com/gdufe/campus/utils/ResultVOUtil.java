@@ -1,6 +1,7 @@
 package com.gdufe.campus.utils;
 
 
+import com.gdufe.campus.enums.ResultEnum;
 import com.gdufe.campus.pojo.VO.ResultVO;
 
 /**
@@ -12,8 +13,8 @@ public class ResultVOUtil {
     public static ResultVO success(Object object) {
         ResultVO resultVO = new ResultVO();
         resultVO.setData(object);
-        resultVO.setCode(0);
-        resultVO.setMsg("成功");
+        resultVO.setCode(ResultEnum.SUCCESS.getCode());
+        resultVO.setMsg(ResultEnum.SUCCESS.getMessage());
         return resultVO;
     }
 

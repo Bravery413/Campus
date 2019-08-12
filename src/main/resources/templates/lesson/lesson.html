@@ -48,7 +48,7 @@
     <div id="div1" class="row">
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 
-            <a href="/listPage"><h2 style="color: black;display: inline-block">全部代课列表</h2></a>
+            <a href="/lesson/listPage"><h2 style="color: black;display: inline-block">全部代课列表</h2></a>
             <a style="margin-left: 70%" href="/selfPage" class="btn btn-dark">我的代课</a>
             <div class="table-responsive">
 
@@ -78,8 +78,8 @@
                         <td>{{d.price}}</td>
                         <td>{{d.time}}</td>
                         <td>
-                            <a v-if="d.isTake==0" class="btn btn-info"
-                               :href="'${'/detailPage'}' + '?lid=' + d.id">详情</a>
+                            <a v-if="d.isTake==0" class="btn btn-info">详情</a>
+                               <!--:href="'${'/detailPage'}' + '?lid=' + d.id">详情</a>-->
                             <img v-if="d.isTake==1" style="height: 50px;width: 50px" th:src="@{/images/isTake.png}">
                         </td>
                     </tr>
@@ -148,7 +148,7 @@
             getData: function (val) {
                 var self = this;
                 var uid = GetUrlParam("uid");
-                this.$http.post("/list", {
+                this.$http.post("/lesson/list", {
                     'uid': uid,
                     'price_sort': val,
                 }).then(function (responce) {
