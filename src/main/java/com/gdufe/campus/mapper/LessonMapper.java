@@ -23,7 +23,7 @@ public interface LessonMapper {
 
 
     @Delete("delete from lesson where id=#{id}")
-    Integer deleteById(int id);
+    Integer deleteById(Long id);
 
     @Update("update lesson set is_take=1 where id=#{id}")
     Integer taken(Long id);
@@ -34,14 +34,11 @@ public interface LessonMapper {
     int save(LessonDO lesson);
 
 
-
     @Update("update lesson set place=#{place},time=#{time}," +
             "price=#{price},is_take=#{isTake},info=#{info}," +
             "last_time=#{lastTime},wechat=#{wechat},uid=#{uid},sex=#{sex},location=#{location} " +
             "where id=#{id}")
     int update(LessonDO lesson);
-
-
 
 
 }

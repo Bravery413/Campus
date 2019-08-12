@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -18,23 +19,30 @@ public class LessonMapperTest {
     @Test
     public void findAll() {
         List<LessonDO> lessons = lessonMapper.findAll();
-        Assert.assertNotNull("[代课] 查询全部代课失败",lessons);
+        Assert.assertNotNull("[代课] 查询全部代课失败", lessons);
     }
 
     @Test
     public void findById() {
         LessonDO lesson = lessonMapper.findById(1L);
         System.out.println(lesson);
-        Assert.assertNotNull("[代课] ID查询代课失败",lesson);
+        Assert.assertNotNull("[代课] ID查询代课失败", lesson);
     }
 
 
     @Test
     public void deleteById() {
+        int delete = lessonMapper.deleteById(10L);
+        System.out.println(delete);
+        Assert.assertEquals(1, delete);
     }
 
     @Test
     public void taken() {
+        int taken = lessonMapper.taken(10L);
+        System.out.println(taken);
+        Assert.assertEquals(1, taken);
+
     }
 
     @Test
@@ -52,7 +60,7 @@ public class LessonMapperTest {
         lesson.setPrice(25);
         int save = lessonMapper.save(lesson);
         System.out.println(save);
-        Assert.assertEquals(1,save);
+        Assert.assertEquals(1, save);
     }
 
     @Test
@@ -71,6 +79,6 @@ public class LessonMapperTest {
         lesson.setPrice(250);
         int update = lessonMapper.update(lesson);
         System.out.println(update);
-        Assert.assertEquals(1,update);
+        Assert.assertEquals(1, update);
     }
 }
