@@ -1,11 +1,9 @@
 package com.gdufe.campus.pojo.DO;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName("lesson")
-public class LessonDO {
+public class Lesson {
 
     private Long id;
 
