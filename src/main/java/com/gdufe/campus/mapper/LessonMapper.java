@@ -24,7 +24,6 @@ public interface LessonMapper {
     @Select("select * from lesson where id=#{id}")
     LessonDO findById(Long id);
 
-
     @Delete("delete from lesson where id=#{id}")
     Integer deleteById(Long id);
 
