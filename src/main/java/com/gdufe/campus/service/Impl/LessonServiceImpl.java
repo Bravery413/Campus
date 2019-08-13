@@ -4,7 +4,6 @@ import com.gdufe.campus.enums.ResultEnum;
 import com.gdufe.campus.execption.BusinessException;
 import com.gdufe.campus.mapper.LessonMapper;
 import com.gdufe.campus.pojo.DO.LessonDO;
-import com.gdufe.campus.pojo.DO.UserDO;
 import com.gdufe.campus.pojo.DTO.LessonDTO;
 import com.gdufe.campus.service.LessonService;
 import lombok.extern.slf4j.Slf4j;
