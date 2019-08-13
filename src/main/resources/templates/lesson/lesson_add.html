@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>发布代课</title>
+    <div th:replace="commons/head::head"></div>
+    <style type="text/css">
+        /* Chart.js */
+        @-webkit-keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        .chartjs-render-monitor {
+            -webkit-animation: chartjs-render-animation 0.001s;
+            animation: chartjs-render-animation 0.001s;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="div1" class="container-fluid">
+    <div class="row">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <form>
+
+                <div class="form-group">
+                    <label>位置</label>
+                    <input name="place" v-model="place" type="text" class="form-control" placeholder="综合楼">
+                </div>
+                <div class="form-group">
+                    <div class="bs-example">
+                        <div class="" data-toggle="">
+                            <label class="btn btn-default active">
+                                <input v-model="location" type="radio" name="location" value="1" id="location"> 广州
+                            </label>
+                            <label class="btn btn-default">
+                                <input v-model="location" type="radio" name="location" value="2" id="location"> 佛山
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>时间</label>
+                    <input name="time" v-model="time" type="text" class="form-control" placeholder="这周周五34节">
+                </div>
+                <div class="form-group">
+                    <label>价钱</label>
+                    <!--提交的是部门的id-->
+                    <input name="price" v-model="price" type="number" class="form-control" placeholder="25">
+                </div>
+                <div class="form-group">
+                    <div class="bs-example">
+                        <div class="" data-toggle="">
+                            <label class="btn btn-default active">
+                                <input v-model="sex" type="radio" name="sex" value="1" id="sex"> 男
+                            </label>
+                            <label class="btn btn-default">
+                                <input v-model="sex" type="radio" name="sex" value="2" id="sex"> 女
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>微信</label>
+                    <input id="data" name="wechat" v-model="wechat" type="text" class="form-control"
+                           placeholder="2472937751">
+                </div>
+                <div class="form-group">
+                    <label>备注</label>
+                    <textarea name="info" v-model="info" style="height: 120px" id="info" class="form-control"
+                              placeholder="带书,做笔记等"></textarea>
+                </div>
+                <div class="form-group">
+                    <label><span style="color: dodgerblue">验证码&nbsp;&nbsp;</span><span style="color: red">(区分大小写)</span>:</label>
+                    <br>
+                    <input style=" display:inline-block; width: 120px;" id="ccode" name="ccode" v-model="code"
+                           type="text" class="form-control" placeholder="">
+                    <img id="codeImg" style="margin-left: 10%" :src="'/captcha?randomID='+randomID"><input type="hidden"
+                                                                                                           name="randomID"
+                                                                                                           value="${randomID}"
+                                                                                                           id="hiddenCode"/>
+                    <button @click="save()" style="margin-left: 40%" type="button" class="btn btn-primary">发布</button>
+            </form>
+        </main>
+    </div>
+</div>
+
+<script>
+    feather.replace()
+</script>
+</body>
+</html>
+
+<script>
+    function GetUrlParam(paraName) {
+        var url = document.location.toString();
+        var arrObj = url.split("?");
+
+        if (arrObj.length > 1) {
+            var arrPara = arrObj[1].split("&");
+            var arr;
+
+            for (var i = 0; i < arrPara.length; i++) {
+                arr = arrPara[i].split("=");
+
+                if (arr != null && arr[0] == paraName) {
+                    return arr[1];
+                }
+            }
+            return "";
+        } else {
+            return "";
+        }
+
+    }
+</script>
+<script>
+    new Vue({
+        el: '#div1',
+        data: {
+            id: null,
+            place: '',
+            time: '',
+            price: '',
+            info: '',
+            sex: '',
+            location: '',
+            wechat: '',
+            code: '',
+            randomID: '',
+        },
+        created: function () {
+            let self = this;
+            self.detail();
+            self.getRandomId();
+        },
+        methods: {
+            getRandomId: function () {
+                var self = this;
+                this.$http.post('/createCode').then(function (res) {
+                    var resp = res.data;
+                    if (resp.code == 1000) {
+                        self.randomID = resp.data;
+                    }
+                })
+            },
+            getnewId: function () {
+                var self = this;
+                this.$http.post('/changeCode',
+                        {
+                            randomID: self.randomID,
+                            code: self.code
+                        }).then(function (res) {
+                    var resp = res.data;
+                    if (resp.code == 1000) {
+                        self.randomID = resp.data;
+                    }
+                })
+            },
+            detail: function () {
+                var lid = GetUrlParam("lid");
+                if (lid != null && lid != '') {
+                    var self = this;
+                    this.$http.post(
+                            'lesson/list',
+                            {
+                                'lid': lid,
+                            }).then(function (res) {
+                        var res = res.data;
+                        if (res.code == 1000) {
+                            self.data = res.data;
+                            self.place = res.data[0].place;
+                            self.time = res.data[0].time;
+                            self.price = res.data[0].price;
+                            self.location = res.data[0].location;
+                            self.sex = res.data[0].sex;
+                            self.wechat = res.data[0].wechat;
+                            self.info = res.data[0].info;
+
+                        }
+
+                    }, function (err) {
+                        alert("errar");
+                    })
+                }
+            },
+            save: function () {
+                var id = GetUrlParam("lid");
+                let self = this;
+                if (self.place == '') {
+                    alert('请填写地点');
+                    return
+                }
+                if (self.time == '') {
+                    alert('请填写时间');
+                    return
+                }
+                if (self.price == '') {
+                    alert('请填写价钱');
+                    return
+                }
+                if (self.wechat == '') {
+                    alert('请填写微信联系方式');
+                    return
+                }
+                if (self.location == '') {
+                    alert('请填写广州/佛山');
+                    return
+                }
+                if (self.sex == '') {
+                    alert('请填写男/女');
+                    return
+                }
+
+                //判断是新增
+                if (id == null || id == '') {
+                    self.$http.post('/add', {
+                        place: self.place,
+                        time: self.time,
+                        price: self.price,
+                        info: self.info,
+                        sex: self.sex,
+                        location: self.location,
+                        wechat: self.wechat,
+                        randomID: self.randomID,
+                        code: self.code,
+                    }).then(function (response) {
+                        let res = response.data;
+                        if (res.code == 1000) {
+                            window.history.back();
+                        } else if (res.code == 100002) {
+                            self.getnewId();
+                            alert(res.msg);
+                            $("#codeImg").attr('src', '/captcha?randomID=' + self.randomID + '&m=' + Math.random());
+                        } else {
+                            alert("添加失败" + res.msg);
+                        }
+                    })
+                } else {
+                    //修改
+                    self.$http.post('/add', {
+                        lid: id,
+                        place: self.place,
+                        time: self.time,
+                        price: self.price,
+                        info: self.info,
+                        sex: self.sex,
+                        location: self.location,
+                        wechat: self.wechat,
+                        randomID: self.randomID,
+                        code: self.code,
+                    }).then(function (response) {
+                        let res = response.data;
+                        if (res.code == 1000) {
+                            window.history.back();
+                        } else if (res.code == 100002) {
+                            self.getnewId();
+                            alert(res.msg);
+                            $("#codeImg").attr('src', '/captcha?randomID=' + self.randomID + '&m=' + Math.random());
+                        } else if (res.code == 80002) {
+                            alert("添加失败" + res.msg);
+                        }
+                    })
+                }
+
+            }
+        }
+    })
+
+</script>

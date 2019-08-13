@@ -73,7 +73,7 @@
                 }).then(function (response) {
                     var res = response.data;
                     if (res.code == 1000) {
-                        // window.location.href = "/goods/selfPage";
+                        window.location.href = "/lesson/listPage";
                     } else if (res.code == 800001) {
                         alert('账号不存在或密码错误');
                     } else if (res.code == 200005) {

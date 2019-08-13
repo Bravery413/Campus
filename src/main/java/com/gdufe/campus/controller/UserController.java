@@ -37,8 +37,9 @@ public class UserController {
         return "user/login";
     }
 
+    @ResponseBody
     @PostMapping("/login")
-    public String login(@RequestBody UserVO userVO,
+    public ResultVO login(@RequestBody UserVO userVO,
                         Map<String, Object> map,
                         HttpSession session) {
 
@@ -52,7 +53,7 @@ public class UserController {
         } catch (BusinessException e) {
             map.put("msg", ResultEnum.PASSWORD_ERROR.getMessage());
         }
-        return "user/login";
+        return ResultVOUtil.success();
     }
 
     @GetMapping("/logout")

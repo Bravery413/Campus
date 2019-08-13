@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>代课详情</title>
+    <div th:replace="commons/head::head"></div>
+    <style type="text/css">
+        /* Chart.js */
+        @-webkit-keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        .chartjs-render-monitor {
+            -webkit-animation: chartjs-render-animation 0.001s;
+            animation: chartjs-render-animation 0.001s;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <div id="div1">
+                <div class="form-group">
+                    <label class="text-info">位置</label>
+                    <div class="form-control">{{data[0].place}}</div>
+                </div>
+                <div class="form-group">
+                    <label class="text-info">微信&nbsp&nbsp <span style="color: red">(请双击复制添加好友)</span></label>
+                    <input style="border: 2px solid red" id="wechat" class="form-control" type="text" v-model="wechat">
+                </div>
+                <div class="form-group">
+                    <label class="text-info">时间</label>
+                    <div class="form-control">{{data[0].time}}</div>
+                </div>
+                <div class="form-group">
+                    <label class="text-info">价格</label>
+                    <div class="form-control">{{data[0].price}}</div>
+                </div>
+                <div class="form-group">
+                    <label class="text-info">备注</label>
+                    <textarea name="info" style="height: 120px" id="info" class="form-control">{{data[0].info}}</textarea>
+                </div>
+                <a href="#" style="margin-left: 30%" @click="setFocus()" class="btn btn-success">请联系微信接单</a>
+            </div>
+        </main>
+    </div>
+</div>
+
+
+</body>
+</html>
+<script>
+    function GetUrlParam(paraName) {
+        var url = document.location.toString();
+        var arrObj = url.split("?");
+
+        if (arrObj.length > 1) {
+            var arrPara = arrObj[1].split("&");
+            var arr;
+
+            for (var i = 0; i < arrPara.length; i++) {
+                arr = arrPara[i].split("=");
+
+                if (arr != null && arr[0] == paraName) {
+                    return arr[1];
+                }
+            }
+            return "";
+        }
+        else {
+            return "";
+        }
+
+    }
+</script>
+<script>
+
+    new Vue({
+        el:'#div1',
+        data: {
+            data:{
+            },
+            wechat:''
+        },
+        created:function(){
+            let self =this;
+            self.detail();
+        },
+        methods:{
+            detail:function () {
+                var self=this;
+                var lid=GetUrlParam('lid');
+                this.$http.post(
+                        '/lesson/list',
+                        {
+                            'lid':lid,
+                        }).then(function (res){
+                    var res=res.data;
+                    if(res.code==1000){
+                        self.data=res.data;
+                        self.wechat=res.data[0].wechat;
+
+                    }
+                },function(err){
+                    alert("errar");
+                })
+            },
+            setFocus:function () {
+                document.getElementById("wechat").focus();
+            }
+        }
+
+    })
+</script>
