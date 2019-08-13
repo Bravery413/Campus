@@ -35,6 +35,8 @@ public class LessonController {
     public String addPage() {
         return "lesson/lesson_add";
     }
+
+
     @GetMapping("/detailPage")
     public String detailPage() {
         return "lesson/lesson_detail";

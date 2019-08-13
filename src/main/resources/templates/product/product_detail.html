@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>闲置详情</title>
+    <link rel="stylesheet" href="../../../../public/stylesheets/xz_detail.css">
+    <script src="@{'/public/javascripts/vue.min.js'}" type="text/javascript"></script>
+    <script src="@{'/public/javascripts/vue-resource.min.js'}" type="text/javascript"></script>
+
+</head>
+
+<body>
+<div id="div1">
+    <!-- 用户头部分 -->
+    <div class="head">
+        <div class="img_wrapper">
+            <img src="../../../../public/icons/xz_icons/head.jpg" alt="">
+        </div>
+        <div class="user">
+            <span>Bravery丶</span>
+        </div>
+        <div class="tag">
+            <img src="../../../../public/icons/xz_icons/xy.png" alt="">
+        </div>
+        <div class="time">
+            <span>发布于7分钟以前</span>
+        </div>
+        <div class="location">
+            <span>发布于海珠校区</span>
+        </div>
+
+    </div>
+    <!-- 价钱栏 -->
+    <div class="price">
+        <span>{{goodsInfo.price}}</span>
+    </div>
+    <!-- 文本栏 -->
+    <div class="text">
+        <div class="title">
+            <span> &nbsp;&nbsp;{{goodsInfo.title}}</span>
+        </div>
+        <div class="detail">
+            <span>
+                    {{goodsInfo.detail}}
+            </span>
+
+        </div>
+    </div>
+    <!-- 图片区 -->
+    <div class="pictures">
+        <div class="picture" v-for="img in goodsInfo.img">
+            <img :src="'https://bravery-1258739678.cos.ap-guangzhou.myqcloud.com/'+img" alt="">
+        </div>
+    </div>
+    <!-- 页面底部 -->
+#{extends 'common/footer.html' /}
+
+</div>
+</body>
+
+</html>
+<script>
+    function GetUrlParam(paraName) {
+        var url = document.location.toString();
+        var arrObj = url.split("?");
+
+        if (arrObj.length > 1) {
+            var arrPara = arrObj[1].split("&");
+            var arr;
+
+            for (var i = 0; i < arrPara.length; i++) {
+                arr = arrPara[i].split("=");
+
+                if (arr != null && arr[0] == paraName) {
+                    return arr[1];
+                }
+            }
+            return "";
+        } else {
+            return "";
+        }
+    }
+</script>
+<script>
+    new Vue({
+        el: '#div1',
+        data: {
+            goodsInfo: '',
+        },
+        created: function () {
+            this.getData();
+        },
+        methods: {
+            getData: function () {
+                var self = this;
+                var id = GetUrlParam('id');
+                var url = '/goods/detail' + '?id=' + id;
+                this.$http.post(url, {}).then(function (responce) {
+                    var res = responce.data;
+                    if (res.code == 1000) {
+                        this.goodsInfo = res.data;
+                        console.log(this.goodsInfo);
+                    }
+                })
+            }
+        }
+    })
+</script>
