@@ -1,12 +1,16 @@
 package com.gdufe.campus.service.Impl;
 
 import com.gdufe.campus.mapper.ProductMapper;
+import com.gdufe.campus.pojo.DO.ProductDO;
 import com.gdufe.campus.pojo.DTO.ProductDTO;
 import com.gdufe.campus.service.ProductService;
+import com.gdufe.campus.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,35 +24,57 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductMapper productMapper;
 
-    //TODO 写到这里
-
     @Override
     public List<ProductDTO> listAll() {
-        return null;
+        List<ProductDO> productDOS = productMapper.selectList(null);
+        ArrayList<ProductDTO> productDTOS = new ArrayList<>();
+        for (ProductDO p:productDOS) {
+            ProductDTO productDTO = new ProductDTO();
+            BeanUtils.copyProperties(p,productDTO);
+            productDTOS.add(productDTO);
+        }
+        return productDTOS;
     }
 
     @Override
     public List<ProductDTO> findByUser(Long uid) {
-        return null;
+        List<ProductDO> productDOS = productMapper.findByUser(uid);
+        ArrayList<ProductDTO> productDTOS = new ArrayList<>();
+        for (ProductDO p:productDOS) {
+            ProductDTO productDTO = new ProductDTO();
+            BeanUtils.copyProperties(p,productDTO);
+            productDTOS.add(productDTO);
+        }
+        return productDTOS;
     }
 
     @Override
     public ProductDTO findById(Long id) {
-        return null;
+        ProductDO productDO = productMapper.selectById(id);
+        ProductDTO productDTO = new ProductDTO();
+        BeanUtils.copyProperties(productDO,productDTO);
+        return productDTO;
     }
 
     @Override
     public Integer add(ProductDTO productDTO) {
-        return null;
+        ProductDO productDO = new ProductDO();
+        BeanUtils.copyProperties(productDTO,productDO);
+        int insert = productMapper.insert(productDO);
+        return insert;
     }
 
     @Override
     public Integer update(ProductDTO productDTO) {
-        return null;
+        ProductDO productDO = new ProductDO();
+        BeanUtils.copyProperties(productDTO,productDO);
+        int update = productMapper.updateById(productDO);
+        return update;
     }
 
     @Override
     public Integer delete(Long id) {
-        return null;
+        int delete = productMapper.deleteById(id);
+        return delete;
     }
 }
