@@ -1,7 +1,7 @@
 package com.gdufe.campus.service.Impl;
 
 import com.gdufe.campus.enums.ResultEnum;
-import com.gdufe.campus.execption.BusinessException;
+import com.gdufe.campus.exception.BusinessException;
 import com.gdufe.campus.mapper.LessonMapper;
 import com.gdufe.campus.pojo.DO.LessonDO;
 import com.gdufe.campus.pojo.DTO.LessonDTO;

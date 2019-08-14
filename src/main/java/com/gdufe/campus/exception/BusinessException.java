@@ -1,4 +1,4 @@
-package com.gdufe.campus.execption;
+package com.gdufe.campus.exception;
 
 
 import com.gdufe.campus.enums.ResultEnum;

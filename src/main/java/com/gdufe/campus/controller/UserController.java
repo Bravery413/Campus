@@ -2,8 +2,7 @@ package com.gdufe.campus.controller;
 
 import com.gdufe.campus.config.EmailConfig;
 import com.gdufe.campus.enums.ResultEnum;
-import com.gdufe.campus.execption.BusinessException;
-import com.gdufe.campus.pojo.DO.UserDO;
+import com.gdufe.campus.exception.BusinessException;
 import com.gdufe.campus.pojo.DTO.UserDTO;
 import com.gdufe.campus.pojo.VO.ResultVO;
 import com.gdufe.campus.pojo.VO.UserVO;
@@ -14,11 +13,9 @@ import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 import java.util.Map;
 
 

@@ -105,6 +105,12 @@
             <artifactId>cos_api</artifactId>
             <version>5.5.2</version>
         </dependency>
+        <!--验证码相关-->
+        <dependency>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-web</artifactId>
+            <version>1.1.4.RELEASE</version>
+        </dependency>
 
 
     </dependencies>
