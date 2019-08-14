@@ -63,13 +63,13 @@
             <artifactId>commons-codec</artifactId>
             <version>1.11</version>
         </dependency>
-
+        <!-- 热部署,需要optional为 true  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional> <!-- 这个需要为 true 热部署才有效 -->
+            <optional>true</optional>
         </dependency>
-
+        <!--thymeleaf-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -88,16 +88,22 @@
             <artifactId>bootstrap</artifactId>
             <version>4.0.0</version>
         </dependency>
-
+        <!--json插件-->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
         </dependency>
-
+        <!--邮件-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-email</artifactId>
             <version>1.5</version>
+        </dependency>
+         <!--cos储存桶-->
+        <dependency>
+            <groupId>com.qcloud</groupId>
+            <artifactId>cos_api</artifactId>
+            <version>5.5.2</version>
         </dependency>
 
 

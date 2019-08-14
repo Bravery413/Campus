@@ -25,6 +25,8 @@ public class ProductDTO {
 
     private String wechat;
 
+    private String[] imgUrls;
+
 
 
 

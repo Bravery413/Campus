@@ -25,6 +25,8 @@ public class ProductVO {
 
     private String wechat;
 
+    private String[] imgUrls;
+
 
 
 

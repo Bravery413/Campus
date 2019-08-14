@@ -1,33 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
     <title>闲置首页</title>
+    <div th:replace="commons/head::head"></div>
+    <link th:href="@{/css/product.css}" rel="stylesheet">
 
-    <script src="@{'/public/javascripts/vue.min.js'}" type="text/javascript"></script>
-    <script src="@{'/public/javascripts/vue-resource.min.js'}" type="text/javascript"></script>
-    <link rel="stylesheet" href="../../../../public/stylesheets/xz.css">
 </head>
 
 <body id="v1">
 
-*{<div style="position: fixed;right: 50px;bottom: 150px">}*
-*{<img style="width: 50px;height: 50px;border-radius: 50%;" src="../../../../public/icons/xz_icons/add.png">}*
-*{<span>我要发布</span>}*
-*{</div>}*
+<!--<div style="position: fixed;right: 50px;bottom: 150px">-->
+<!--<img style="width: 50px;height: 50px;border-radius: 50%;" src="../../../../public/icons/xz_icons/add.png">-->
+<!--<span>我要发布</span>-->
+<!--</div>-->
 <!-- 搜索框 -->
 <div id="div1">
     <div class="search">
         <div class="left">
-            <img src="../../../../public/icons/xz_icons/xzlogo.png" alt="">
+            <img th:src="@{/icons/product_icons/xzlogo.png}" alt="">
         </div>
 
         <div class="center">
             <div class="inp_warpper">
-                <img src="../../../../public/icons/xz_icons/ss1.png" alt="">
+                <img th:src="@{/icons/product_icons/ss1.png}" alt="">
                 <input type="text" placeholder="杜兰特11代篮球鞋">
             </div>
 
@@ -35,8 +34,8 @@
         </div>
 
         <div class="right">
-            <a href="/goods/addPage">
-                <img style="top: 5px;" src="../../../../public/icons/xz_icons/add.png" alt="">
+            <a href="/product/addPage">
+                <img style="top: 5px;" th:src="@{/icons/product_icons/add.png}" alt="">
                 <span style="position: absolute;bottom: 0px;right: 12px;font-size: 15px;">发布</span>
             </a>
         </div>
@@ -47,35 +46,35 @@
     <div class="category">
         <div class="item">
             <div class="img_warpper">
-                <img src="../../../../public/icons/xz_icons/sj.png" alt="">
+                <img th:src="@{/icons/product_icons/sj.png}" alt="">
             </div>
             <span>二手数码</span>
 
         </div>
         <div class="item">
             <div class="img_warpper">
-                <img src="../../../../public/icons/xz_icons/ts.png" alt="">
+                <img th:src="@{/icons/product_icons/ts.png}" alt="">
             </div>
             <span>二手图书</span>
 
         </div>
         <div class="item">
             <div class="img_warpper">
-                <img src="../../../../public/icons/xz_icons/fs.png" alt="">
+                <img th:src="@{/icons/product_icons/fs.png}" alt="">
             </div>
             <span>服饰鞋包</span>
 
         </div>
         <div class="item">
             <div class="img_warpper">
-                <img src="../../../../public/icons/xz_icons/hzp.png" alt="">
+                <img th:src="@{/icons/product_icons/hzp.png}" alt="">
             </div>
             <span>美妆捡漏</span>
 
         </div>
         <div class="item">
             <div class="img_warpper">
-                <img src="../../../../public/icons/xz_icons/zl.png" alt="">
+                <img th:src="@{/icons/product_icons/zl.png}" alt="">
             </div>
             <span>超值租赁</span>
 
@@ -101,15 +100,15 @@
     <!-- 列表栏 -->
     <div class="list">
 
-        <a :href="'/goods/detailPage?'+'id='+goods.id" v-for="goods in goodsInfos">
+        <a :href="'/product/detailPage?'+'id='+goods.id" v-for="goods in goodsInfos">
             <div class="item">
                 <div class="left">
-                    <img :src="'https://bravery-1258739678.cos.ap-guangzhou.myqcloud.com/'+goods.img[0]" alt="">
+                    <img :src="'https://bravery-1258739678.cos.ap-guangzhou.myqcloud.com/'+goods.img" alt="">
                 </div>
                 <div class="right">
                     <div class="title">
                         <div class="img_wrapper">
-                            <img src="../../../../public/icons/xz_icons/new.png" alt="">
+                            <img th:src="@{/icons/product_icons/new.png}" alt="">
                         </div>
                         <span>{{goods.title}}</span>
                     </div>
@@ -128,7 +127,7 @@
 
     </div>
     <!-- 页面底部 -->
-#{extends 'common/footer.html' /}
+    <div th:include="commons/footer"></div>
 </div>
 </body>
 
@@ -145,7 +144,7 @@
         methods: {
             getData: function () {
                 var self = this;
-                this.$http.post("/goods/list", {}).then(function (responce) {
+                this.$http.post("/product/list", {}).then(function (responce) {
                     var res = responce.data;
                     if (res.code == 1000) {
                         this.goodsInfos = res.data;

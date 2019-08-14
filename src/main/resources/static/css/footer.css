@@ -1,0 +1,38 @@
+/* 页面底部 */
+.footer {
+    position: fixed;
+    width: 100%;
+    height: 60px;
+    /* border: 1px solid red; */
+    background-color: #FFE4C4;
+    bottom: 0px;
+}
+
+.footer .foot_item {
+    position: relative;
+    float: left;
+    width: 32%;
+    height: 100%;
+    /* border: 1px solid green; */
+}
+
+.footer .foot_item .img_wrapper {
+    position: absolute;
+    top: 2px;
+    left: 50px;
+    /* border: 1px solid blue; */
+    width: 32px;
+    height: 32px;
+}
+
+.footer .foot_item .img_wrapper img {
+    width: 100%;
+    height: 100%;
+}
+
+.footer .foot_item span {
+    position: absolute;
+    top: 35px;
+    left: 53px;
+    font-size: 12px;
+}

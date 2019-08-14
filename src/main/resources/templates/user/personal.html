@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, name=viewport"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>个人中心</title>
+    <div th:replace="commons/head::head"></div>
+    <link th:href="@{/css/personal.css}" rel="stylesheet">
+    <style>
+        .head {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .head p a {
+            font-size: 30px;
+            color: #8fd19e;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- 个人中心头部分 -->
+<div id="div1" class='head'>
+
+    <!--#{if user!=null}-->
+    <!--</tr>-->
+    <!--<div class="img_warper">-->
+    <!--<img class="head_img" :src="'../../../../public/icons/chat_icons/'+user.head_img" alt="未上传头像">-->
+    <!--</div>-->
+    <!--<div class='name_warpper'>-->
+    <!--<span>{{user.username}}</span>-->
+    <!--</div>-->
+    <!--<div class='set_warpper'>-->
+    <!--<a href="/logout"><span>退出登录></span></a>-->
+    <!--</div>-->
+    <!--#{/if}-->
+    <!--#{if user==null}-->
+    <p><a href="/user/loginPage">请登录</a></p>
+    <!--#{/if}-->
+</div>
+
+<!-- 发布管理 -->
+<div id="div2" class="manager">
+    <div class="mag_title">
+        <span>发布管理</span>
+    </div>
+    <div class="mag_items">
+        <div class="item">
+            <div class='img_warper'>
+
+                <img th:src="@{/icons/product_icons/foot_jz.png}" alt="" class="item_img">
+            </div>
+
+            <span>我的兼职</span>
+        </div>
+
+        <a :href="'/in?username='+username">
+            <div class="item">
+                <div class='img_warper'>
+                    <img th:src="@{/icons/product_icons/xx.png}" alt="" class="item_img">
+                </div>
+                <!--*{<input type="hidden" name="username" v-model="user.username" id="user">}*-->
+                <span>我的消息</span>
+            </div>
+
+        </a>
+        <div class="item">
+            <div class='img_warper'>
+                <img th:src="@{/icons/product_icons/xzt.png}" alt="" class="item_img">
+            </div>
+            <span>我的小纸条</span>
+        </div>
+    </div>
+
+</div>
+<!-- 其他服务 -->
+<div class="manager">
+    <div class="mag_title">
+        <span>其他服务</span>
+    </div>
+    <div class="mag_items">
+        <div class="item">
+            <div class='img_warper'>
+                <img th:src="@{/icons/product_icons/wt.png}" alt="" class="item_img">
+            </div>
+
+            <span>问题与解答</span>
+        </div>
+        <div class="item">
+            <div class='img_warper'>
+                <img th:src="@{/icons/product_icons/swhz.png}" alt="" class="item_img">
+            </div>
+            <span>商务合作</span>
+        </div>
+        <div class="item">
+            <div class='img_warper'>
+                <img th:src="@{/icons/product_icons/yjfk.png}" alt="" class="item_img">
+            </div>
+            <span>意见反馈</span>
+        </div>
+        <div class="item">
+            <div class='img_warper'>
+                <img th:src="@{/icons/product_icons/gy.png}" alt="" class="item_img">
+            </div>
+            <span>&nbsp&nbsp&nbsp&nbsp关于</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- 页面底部 -->
+<div th:include="commons/footer"></div>
+</body>
+</html>
+<script>
+    window.user =${new com.google.gson.Gson().toJson(user).raw()}
+</script>
+<script>
+    new Vue({
+        el: '#div1',
+        data: {
+            user: window.user,
+            username: window.user.username,
+            img: window.user.head_img,
+
+        },
+        created: function () {
+            console.log(this.user);
+            // this.chat();
+        },
+
+        methods: {
+            chat: function () {
+
+            }
+        }
+    })
+</script>
+<script>
+    new Vue({
+        el: '#div2',
+        data: {
+            user: window.user,
+            username: window.user.username,
+            img: window.user.head_img,
+
+        },
+        created: function () {
+            console.log(this.user);
+            // this.chat();
+        },
+
+        methods: {
+            chat: function () {
+
+            }
+        }
+    })
+</script>

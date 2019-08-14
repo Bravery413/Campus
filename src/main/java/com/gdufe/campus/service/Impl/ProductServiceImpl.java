@@ -53,6 +53,8 @@ public class ProductServiceImpl implements ProductService {
         ProductDO productDO = productMapper.selectById(id);
         ProductDTO productDTO = new ProductDTO();
         BeanUtils.copyProperties(productDO,productDTO);
+        String[] urls = productDTO.getImg().split("#");
+        productDTO.setImgUrls(urls);
         return productDTO;
     }
 

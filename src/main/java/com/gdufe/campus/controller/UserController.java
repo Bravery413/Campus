@@ -33,8 +33,12 @@ public class UserController {
     EmailConfig emailConfig;
 
     @GetMapping("/loginPage")
-    public String loginPage(Model model) {
+    public String loginPage() {
         return "user/login";
+    }
+    @GetMapping("/center")
+    public String personalPage() {
+        return "user/personal";
     }
 
     @ResponseBody

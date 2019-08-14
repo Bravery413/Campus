@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -7,95 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>发布</title>
-    <script src="@{'/public/javascripts/vue.min.js'}" type="text/javascript"></script>
-    <script src="@{'/public/javascripts/vue-resource.min.js'}" type="text/javascript"></script>
-    <script type="text/javascript" src="@{'/public/static/js/jquery-3.2.1.slim.min.js'}"></script>
-    <script type="text/javascript" src="@{'/public/static/js/bootstrap.min.js'}"></script>
+    <div th:replace="commons/head::head"></div>
+    <link th:href="@{/css/product_add.css}" rel="stylesheet">
 
-    <link rel="stylesheet" href="../../../../public/stylesheets/goodsAdd.css">
-    <style>
-
-        .upload_warp_img_div_del {
-            position: absolute;
-            top: 6px;
-            width: 16px;
-            right: 4px;
-        }
-
-        .upload_warp_img_div_top {
-            position: absolute;
-            top: 0;
-            width: 30%;
-            height: 30px;
-            /*background-color: rgba(0, 0, 0, 0.4);*/
-            line-height: 30px;
-            text-align: right;
-            color: #fff;
-            font-size: 12px;
-            text-indent: 4px;
-        }
-
-        .upload_warp_img_div img {
-            max-width: 100%;
-            max-height: 100%;
-            vertical-align: middle;
-        }
-
-        .upload_warp_img_div {
-            position: relative;
-            height: 75px;
-            width: 75px;
-            border: 1px solid #ccc;
-            margin: 0px 5px 5px 0px;
-            float: left;
-            line-height: 100px;
-            display: table-cell;
-            text-align: center;
-            background-color: #eee;
-            cursor: pointer;
-        }
-
-        .upload_warp_img {
-            padding: 5px 0 0 5px;
-            overflow: auto;
-            word-break: break-all;
-            word-wrap: break-word;
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .upload_warp_left button {
-            border: 0;
-            outline: none;
-            margin: 8px 5px 0px 5px;
-            cursor: pointer;
-        }
-
-        .upload_warp_left {
-            float: left;
-
-        }
-
-        .upload_warp {
-            display: flex;
-            flex-wrap: wrap;
-            margin: 5px;
-
-        }
-
-        .upload {
-            background-color: #FAFAFA;
-            width: 100%;
-            overflow: auto;
-        }
-
-        .hello {
-            width: 100%;
-            text-align: center;
-        }
-
-
-    </style>
 </head>
 
 <body>
@@ -105,7 +19,7 @@
 <!-- 头 -->
 <div class="head_wrapper">
     <div class="head">
-        <img src="./goodsAdd/关闭.png" alt="" class="close">
+        <img th:src="@{/icons/product_icons/close.png}"alt="" class="close">
         <p>发布</p>
         <div class="other"></div>
     </div>
@@ -130,7 +44,7 @@
                             <div class="upload_warp_img" v-show="imgList.length!=0">
                                 <div class="upload_warp_img_div" v-for="(item,index) of imgList">
                                     <div class="upload_warp_img_div_top">
-                                        <img src="../../../../public/icons/xz_icons/del.png"
+                                        <img th:src="@{/icons/product_icons/del.png}"
                                              class="upload_warp_img_div_del" @click="fileDel(index)">
                                     </div>
                                     <img :src="item.file.src">
@@ -148,11 +62,11 @@
             </div>
             <div class="info">
                 <div class="location">
-                    <img src="../../../../public/icons/xz_icons/location.png" alt="">
+                    <img style="top: 5px;" th:src="@{/icons/product_icons/location.png}" alt="">
                     <p>广东 广州 海珠区</p>
                 </div>
                 <div class="new">
-                    <img src="../../../../public/icons/xz_icons/clicle.png" alt="">
+                    <img style="top: 5px;" th:src="@{/icons/product_icons/clicle.png}" alt="">
                     <p>全新宝贝</p>
                 </div>
             </div>

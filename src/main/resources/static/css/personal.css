@@ -1,30 +1,35 @@
-*{
+
+* {
     margin: 0;
     padding: 0;
     list-style: none;
     text-decoration: none;
 }
-html,body{
+
+html, body {
     width: 100%;
     height: 100%;
     background-color: #f4f4f4;
     /* border:1px solid black; */
     overflow: hidden;
 }
+
 /* 头部分 */
-.head{
+.head {
     width: 100%;
     height: 23%;
     background-color: gray;
     /* border:1px solid black; */
     /* background-image: url(./north.jpg) */
 }
-.head .img_warper{
-    width:60px;
+
+.head .img_warper {
+    width: 60px;
     height: 60px;
     position: relative;
 }
-.head .img_warper .head_img{
+
+.head .img_warper .head_img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
@@ -32,78 +37,90 @@ html,body{
     top: 100%;
     left: 200%;
 }
-.head .name_warpper{
+
+.head .name_warpper {
     width: 80px;
     height: 30px;
     /* border: 1px solid red; */
     position: absolute;
     left: 200px;
 }
-.head .name_warpper span{
+
+.head .name_warpper span {
     line-height: 30px;
     font-size: 20px;
     color: aqua
 }
-.head .set_warpper{
+
+.head .set_warpper {
     width: 85px;
     height: 25px;
     /* border: 1px solid yellow; */
     position: relative;
     top: 40px;
     left: 200px;
-    
+
 }
-.head .set_warpper a span{
+
+.head .set_warpper a span {
     font-size: 9px;
     color: aquamarine;
-    position: absolute;    
+    position: absolute;
 }
+
 /* 发布管理 */
-.manager{
+.manager {
     width: 100%;
     height: 20%;
     /* background-color: yellow; */
     /* border:1px solid black; */
 }
+
 /* 标题 */
-.manager .mag_title{
+.manager .mag_title {
     margin-top: 3px;
     width: 100%;
     height: 35px;
     /* border: 1px solid wheat */
     /* background-color: red */
 }
-.manager .mag_title span{
+
+.manager .mag_title span {
     color: black;
     line-height: 35px;
     margin-left: 15px;
     font-weight: 700;
 }
+
 /* 管理选项 */
-.manager .mag_items{
+.manager .mag_items {
     height: 70%;
     width: 100%;
 }
-.manager .mag_items .item{
+
+.manager .mag_items .item {
     position: relative;
     display: inline-block;
     width: 30%;
     height: 100%;
     border: 3px solid white;
 }
-.manager .mag_items .item .img_warper{
+
+.manager .mag_items .item .img_warper {
     width: 30px;
     height: 30px;
     position: relative;
 }
-.manager .mag_items .item .img_warper img{
+
+.manager .mag_items .item .img_warper img {
     position: absolute;
     top: 20px;
     left: 40px;
     width: 100%;
     height: 100%;
 }
-.manager .mag_items .item span{
+
+.manager .mag_items .item span {
     /* border: 1px solid red; */
     position: absolute;
     top: 70%;
@@ -112,8 +129,9 @@ html,body{
     font-size: 13px;
     font-weight: 300;
 }
+
 /* 页面底部 */
-.footer{
+.footer {
     position: fixed;
     width: 100%;
     height: 60px;
@@ -121,14 +139,16 @@ html,body{
     background-color: bisque;
     bottom: 0px;
 }
-.footer .foot_item{
+
+.footer .foot_item {
     position: relative;
     float: left;
     width: 32%;
     height: 100%;
     /* border: 1px solid green; */
 }
-.footer .foot_item .img_wrapper{
+
+.footer .foot_item .img_wrapper {
     position: absolute;
     top: 2px;
     left: 50px;
@@ -136,11 +156,13 @@ html,body{
     width: 32px;
     height: 32px;
 }
-.footer .foot_item .img_wrapper img{
-    width:100%;
+
+.footer .foot_item .img_wrapper img {
+    width: 100%;
     height: 100%;
 }
-.footer .foot_item span{
+
+.footer .foot_item span {
     position: absolute;
     top: 35px;
     left: 53px;

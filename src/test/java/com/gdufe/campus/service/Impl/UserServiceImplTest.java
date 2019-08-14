@@ -1,5 +1,6 @@
 package com.gdufe.campus.service.Impl;
 
+import com.gdufe.campus.config.EmailConfig;
 import com.gdufe.campus.enums.ResultEnum;
 import com.gdufe.campus.pojo.DTO.UserDTO;
 import com.gdufe.campus.service.UserService;
@@ -8,14 +9,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserServiceImplTest {
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EmailConfig emailConfig;
+
     @Test
     public void login() {
         UserDTO userDTO = new UserDTO();
@@ -40,7 +48,7 @@ public class UserServiceImplTest {
         System.out.println(ResultEnum.PASSWORD_ERROR.getMessage());
         boolean result = userService.checkAccount("pyaaaaa");
         System.out.println(result);
-        Assert.assertEquals(true,result);
+        Assert.assertEquals(true, result);
 
     }
 
@@ -54,6 +62,11 @@ public class UserServiceImplTest {
         user.setHeadImg("http://xxx.jpg");
         int save = userService.save(user);
         System.out.println(save);
-        Assert.assertEquals(1,save);
+        Assert.assertEquals(1, save);
+    }
+
+    @Test
+    public void emailConfigTest() {
+        System.out.println(emailConfig.toString());
     }
 }

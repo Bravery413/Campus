@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* 页面底部 */
+        .footer {
+            position: fixed;
+            width: 100%;
+            height: 60px;
+            /* border: 1px solid red; */
+            background-color: #FFE4C4;
+            bottom: 0px;
+        }
+
+        .footer .foot_item {
+            position: relative;
+            float: left;
+            width: 32%;
+            height: 100%;
+            /* border: 1px solid green; */
+        }
+
+        .footer .foot_item .img_wrapper {
+            position: absolute;
+            top: 2px;
+            left: 50px;
+            /* border: 1px solid blue; */
+            width: 32px;
+            height: 32px;
+        }
+
+        .footer .foot_item .img_wrapper img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .footer .foot_item span {
+            position: absolute;
+            top: 35px;
+            left: 53px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<!-- 页面底部 -->
+<div class="footer">
+    <div class="foot_item">
+        <a href="/lesson/listPage">
+            <div class="img_wrapper">
+                <img th:src="@{/icons/product_icons/dk.png}" alt="" class="foot_img">
+            </div>
+            <span>代课</span>
+        </a>
+    </div>
+
+    <div class="foot_item">
+        <a href="/product/listPage">
+            <div class="img_wrapper">
+                <img th:src="@{/icons/product_icons/jz.png}" alt="" class="foot_img">
+            </div>
+            <span>闲置</span>
+        </a>
+    </div>
+    <div class="foot_item">
+
+        <a href="/user/center">
+            <div class="img_wrapper">
+                <img th:src="@{/icons/product_icons/w1.png}" alt="" class="foot_img">
+            </div>
+            <span>&nbsp&nbsp我</span>
+        </a>
+    </div>
+</div>
+</body>
+</html>

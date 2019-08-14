@@ -1,5 +1,6 @@
 package com.gdufe.campus.service.Impl;
 
+import com.gdufe.campus.config.CosConfig;
 import com.gdufe.campus.enums.LocationEnum;
 import com.gdufe.campus.pojo.DTO.ProductDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,11 @@ import static org.junit.Assert.*;
 @SpringBootTest
 @Slf4j
 public class ProductServiceImplTest {
-    @Autowired ProductServiceImpl productService;
+    @Autowired
+    ProductServiceImpl productService;
+
+    @Autowired
+    CosConfig cosConfig;
 
 
     @Test
@@ -77,5 +82,14 @@ public class ProductServiceImplTest {
     public void delete() {
         int delete = productService.delete(31L);
         Assert.assertEquals(1,delete);
+    }
+    @Test
+    public void cosConfigTest(){
+        System.out.println(cosConfig.getAccessKey());
+        System.out.println(cosConfig.getAppId());
+        System.out.println(cosConfig.getBucketName());
+        System.out.println(cosConfig.getSecretKey());
+        System.out.println(cosConfig.getRegionId());
+        System.out.println(cosConfig.toString());
     }
 }
