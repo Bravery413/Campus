@@ -7,11 +7,13 @@ import com.gdufe.campus.pojo.VO.LessonVO;
 import com.gdufe.campus.pojo.VO.ResultVO;
 import com.gdufe.campus.service.Impl.LessonServiceImpl;
 import com.gdufe.campus.utils.ResultVOUtil;
+import com.wf.captcha.utils.CaptchaUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -47,6 +49,7 @@ public class LessonController {
         return "lesson/lesson_self";
     }
 
+
     @ResponseBody
     @PostMapping("/list")
     public ResultVO listAll() {
@@ -65,15 +68,24 @@ public class LessonController {
     //TODO 去接到前端
     @ResponseBody
     @PostMapping("/add")
-    public ResultVO add(LessonVO lessonVO) {
-        LessonDTO lessonDTO = new LessonDTO();
-        BeanUtils.copyProperties(lessonVO,lessonDTO);
-        Integer add = lessonService.addLesson(lessonDTO);
-        if (add==1){
+    public ResultVO add(@RequestBody LessonVO lessonVO, HttpServletRequest request) {
+
+
+        if (!CaptchaUtil.ver(lessonVO.getCode(), request)) {
+            CaptchaUtil.clear(request);
+            return ResultVOUtil.error(ResultEnum.CODE_ERROR.getCode(),ResultEnum.CODE_ERROR.getMessage());
+        }
+        else {
             return ResultVOUtil.success();
         }
-        return ResultVOUtil.error(ResultEnum.ADD_FAILED.getCode(),
-                ResultEnum.ADD_FAILED.getMessage());
+//        LessonDTO lessonDTO = new LessonDTO();
+//        BeanUtils.copyProperties(lessonVO,lessonDTO);
+//        Integer add = lessonService.addLesson(lessonDTO);
+//        if (add==1){
+//            return ResultVOUtil.success();
+//        }
+//        return ResultVOUtil.error(ResultEnum.ADD_FAILED.getCode(),
+//                ResultEnum.ADD_FAILED.getMessage());
 
     }
 

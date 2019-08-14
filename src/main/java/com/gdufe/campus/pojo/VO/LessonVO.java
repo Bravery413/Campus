@@ -25,11 +25,11 @@ public class LessonVO {
 
     private Long uid;
 
-    //男1 女0
     private Integer sex;
 
-    //广州1 佛山0
     private Integer location;
 
+    /** 验证码*/
+    private String code;
 
 }

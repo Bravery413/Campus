@@ -91,14 +91,17 @@
                               placeholder="带书,做笔记等"></textarea>
                 </div>
                 <div class="form-group">
-                    <label><span style="color: dodgerblue">验证码&nbsp;&nbsp;</span><span style="color: red">(区分大小写)</span>:</label>
+                    <label><span style="color: dodgerblue">验证码&nbsp;&nbsp;</span><span
+                            style="color: red">(不区分大小写)</span>:</label>
                     <br>
                     <input style=" display:inline-block; width: 120px;" id="ccode" name="ccode" v-model="code"
                            type="text" class="form-control" placeholder="">
-                    <img id="codeImg" style="margin-left: 10%" :src="'/captcha?randomID='+randomID"><input type="hidden"
-                                                                                                           name="randomID"
-                                                                                                           value="${randomID}"
-                                                                                                           id="hiddenCode"/>
+                    <img id="codeImg" v-model="code" style="margin-left: 10%" src="/captcha/image">
+                    <!--<input type="hidden" name="randomID" value="${randomID}" id="hiddenCode"/>-->
+                    <!--<img id="codeImg" style="margin-left: 10%" :src="'/captcha?randomID='+randomID"><input type="hidden"-->
+                    <!--name="randomID"-->
+                    <!--value="${randomID}"-->
+                    <!--id="hiddenCode"/>-->
                     <button @click="save()" style="margin-left: 40%" type="button" class="btn btn-primary">发布</button>
             </form>
         </main>
@@ -152,40 +155,17 @@
         created: function () {
             let self = this;
             self.detail();
-            self.getRandomId();
         },
         methods: {
-            getRandomId: function () {
-                var self = this;
-                this.$http.post('/createCode').then(function (res) {
-                    var resp = res.data;
-                    if (resp.code == 1000) {
-                        self.randomID = resp.data;
-                    }
-                })
-            },
-            getnewId: function () {
-                var self = this;
-                this.$http.post('/changeCode',
-                        {
-                            randomID: self.randomID,
-                            code: self.code
-                        }).then(function (res) {
-                    var resp = res.data;
-                    if (resp.code == 1000) {
-                        self.randomID = resp.data;
-                    }
-                })
-            },
             detail: function () {
                 var lid = GetUrlParam("lid");
                 if (lid != null && lid != '') {
                     var self = this;
                     this.$http.post(
-                            'lesson/list',
-                            {
-                                'lid': lid,
-                            }).then(function (res) {
+                        'lesson/list',
+                        {
+                            'lid': lid,
+                        }).then(function (res) {
                         var res = res.data;
                         if (res.code == 1000) {
                             self.data = res.data;
@@ -234,7 +214,7 @@
 
                 //判断是新增
                 if (id == null || id == '') {
-                    self.$http.post('/add', {
+                    self.$http.post('/lesson/add', {
                         place: self.place,
                         time: self.time,
                         price: self.price,
@@ -248,17 +228,20 @@
                         let res = response.data;
                         if (res.code == 1000) {
                             window.history.back();
-                        } else if (res.code == 100002) {
-                            self.getnewId();
+                        } else if (res.code == 4) {
+                            self.$http.get('/captcha/image').then(function (response) {
+                                $("#codeImg").attr('src', '/captcha/image');
+                            })
                             alert(res.msg);
-                            $("#codeImg").attr('src', '/captcha?randomID=' + self.randomID + '&m=' + Math.random());
+
                         } else {
                             alert("添加失败" + res.msg);
+
                         }
                     })
                 } else {
                     //修改
-                    self.$http.post('/add', {
+                    self.$http.post('/lesson/update', {
                         lid: id,
                         place: self.place,
                         time: self.time,
@@ -273,11 +256,12 @@
                         let res = response.data;
                         if (res.code == 1000) {
                             window.history.back();
-                        } else if (res.code == 100002) {
-                            self.getnewId();
+                        } else if (res.code == 4) {
+                            self.$http.get('/captcha/image').then(function (response) {
+                                $("#codeImg").attr('src', '/captcha/image');
+                            })
                             alert(res.msg);
-                            $("#codeImg").attr('src', '/captcha?randomID=' + self.randomID + '&m=' + Math.random());
-                        } else if (res.code == 80002) {
+                        } else {
                             alert("添加失败" + res.msg);
                         }
                     })
