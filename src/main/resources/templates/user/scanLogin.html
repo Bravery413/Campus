@@ -149,14 +149,14 @@
     //账号密码登录
     $(".sign_btn").on("click", function () {
         if ($("#username").val() == "") {
-            testSign("手机号不能为空");
+            testSign("账号不能为空");
             return;
         }
         if ($("#password").val() == "") {
             testSign("密码不能为空");
             return;
         }
-        $.post("/login.do",
+        $.post("/user/login",
             {
                 username: $("#username").val(),
                 password: $("#password").val()
