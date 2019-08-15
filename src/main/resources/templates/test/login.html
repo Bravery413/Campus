@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>您好,请登录</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Signin Template for Bootstrap</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/signin.css}" rel="stylesheet">
+
+    <!--扫码登录的link-->
+    <link rel="stylesheet" type="text/css" href="${ctx}/css/base.css"
+          th:href="@{/css/base.css}">
+    <script type="text/javascript" src="${ctx}/js/jquery-2.1.3.min.js"
+            th:src="@{/js/jquery-2.1.3.min.js}"></script>
+    <script type="text/javascript" src="${ctx}/js/qrcode/jquery.qrcode.js"
+            th:src="@{/js/qrcode/jquery.qrcode.js}"></script>
+    <script type="text/javascript" src="${ctx}/js/qrcode/utf.js"
+            th:src="@{/js/qrcode/utf.js}"></script>
+
+</head>
+<body class="text-center">
+<!--<a href="#" th:href="${#servletContext.contextPath}">这是什么</a>-->
+<form class="form-signin" action="dashboard.html" th:action="@{/user/login}" method="post">
+    <img class="mb-4" th:src="@{/img/bootstrap-solid.svg}" src="asserts/img/bootstrap-solid.svg" alt="" width="72"
+         height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <p style="color: red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+    <!--判断-->
+    <!--扫码登录-->
+    <!--扫码登录-->
+    <div class="pc_sign_in_box">
+        <div class="pc_sign_in_title">
+            <ul>
+                <li class="title_selected" data-id="1">扫码登录</li>
+                <li data-id="2">账号密码登录</li>
+            </ul>
+        </div>
+        <div class="pc_sign_in_cont">
+            <div class="pc_qr_code">
+            </div>
+            <div id="result">请使用手机扫码</div>
+        </div>
+        <div class="pc_sign_in_input">
+            <label class="sr-only">Username</label>
+            <input type="text" name="username" class="form-control" placeholder="Username"
+                   required="" autofocus="">
+            <label class="sr-only">Password</label>
+            <input type="password" name="password" class="form-control" placeholder="Password"
+                   required="">
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me"/> remember-me
+                </label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" >Sign in</button>
+        </div>
+
+    </div>
+    <p class="mt-5 mb-3 text-muted">© 2018-2019 Bravery 广州 海珠</p>
+    <a class="btn btn-sm" th:href="@{/index.html(l='zh_CN')}">中文</a>
+    <a class="btn btn-sm" th:href="@{/index.html(l='en_US')}">English</a>
+</form>
+
+</body>
+
+<!--扫码登录的js-->
+<script type="text/javascript">
+    $(window).load(function () {
+        $(".pc_sign_in_box").addClass("bounce-in-down");
+    })
+
+    $(".pc_sign_in_title ul li").on("click", function () {
+        $(this).parents(".pc_sign_in_title").find("ul li").removeClass("title_selected");
+        $(this).addClass("title_selected");
+        if ($(this).attr("data-id") == "1") {
+            $(".pc_sign_in_cont").show();
+            $(".pc_sign_in_input").hide();
+        } else {
+            $(".pc_sign_in_cont").hide();
+            $(".pc_sign_in_input").show();
+        }
+    })
+
+    function testSign(showText) {
+        $(".test_sign_in").css({
+            "visibility": "visible"
+        }).html(showText);
+    }
+
+    //账号密码登录
+    $(".sign_btn").on("click", function () {
+        if ($("#username").val() == "") {
+            testSign("手机号不能为空");
+            return;
+        }
+        if ($("#password").val() == "") {
+            testSign("密码不能为空");
+            return;
+        }
+        // if(!(/^1[34578]\d{9}$/.test($("#username").val()))){
+        //     testSign("手机号输入有误，请重新输入");
+        //     return;
+        // }
+        $.post("/login.do",
+            {
+                username: $("#username").val(),
+                password: $("#password").val()
+            },
+            function (msg) {
+                if (msg.successFlag == '1') {
+                    window.location.href = ctx + "/webstage/login/success.do";
+                } else {
+                    errorBombBox(msg.message);//调报错弹框
+                }
+            })
+    })
+
+
+    //生成二维码
+    !function () {
+        var uuid = $("#uuid").val();
+        console.log(uuid);
+        // http://192.168.31.197:8099/scanLogin?uuid=ee037492-7a75-421f-b9e0-36ec6c04bb67
+        // var content =  "http://"+"${pageContext.request.serverName}"+":"+"${pageContext.request.serverPort}"+"/scanLogin?uuid="+uuid;
+        //域名备案成功换成这个
+        // var content =  "http://"+"braverymall"+"/scanLogin?uuid="+uuid;
+        var content =${window.location.origin}/user/qrlogin/authorize?sid=${data.sid}
+        var content = "http://" + window.location.host + "/scanLogin?uuid=" + uuid;
+        console.dir("扫码url: " + content);
+        var contextRootPath = "${ctx}";
+        console.log("项目根路径: " + "${pageContext.request}");
+        $('.pc_qr_code').qrcode({
+            render: "canvas",
+            width: 200,
+            height: 200,
+            correctLevel: 0,
+            text: content,
+            background: "#ffffff",
+            foreground: "black",
+            src: "/img/qrcode_logo.jpg"
+        });
+
+        setCookie("sid", 123, -1 * 60 * 60 * 1000);
+        keepPool();//自动循环调用
+
+    }();
+
+    //二维码页面写一个js，自动请求服务器查询二维码是否被扫,轮询
+    function keepPool() {
+        var uuid = $("#uuid").val();
+
+        //ajax发的get请求
+        $.get("/pool", {uuid: uuid,}, function (msg) {//如果放入一个不存在的网址怎么办?
+            //总共三种情况:1扫描成功,2超时失效,3继续轮询
+            //扫描成功,也就是一个请求已经发过去服务器,修改了
+            if (msg.successFlag == '1') {
+                console.log("扫码成功.....")
+                $("#result").html("<font color='red'>扫码成功</font>");
+                setCookie(msg.cname, msg.cvalue, 3 * 60 * 60 * 1000);
+                //这个地方电脑端跳转要目的路径
+                window.location.href = "/sclog";
+            }
+            //该二维码已经失效,请重新获取的情况
+            else if (msg.successFlag == '0') {
+                $("#result").html(msg.msg);
+                $("#result").css({
+                    "color": "red"
+                })
+            }
+            //等待中,轮询
+            else {
+                keepPool();
+            }
+
+        });
+    }
+
+    //设置cookie
+    function setCookie(cname, cvalue, expireTime) {
+        var d = new Date();
+        d.setTime(d.getTime() + expireTime);//设置过期时间
+        var expires = "expires=" + d.toUTCString();
+        var path = "path=/"
+        document.cookie = cname + "=" + cvalue + "; " + expires + "; " + path;
+    }
+
+
+</script>
+
+<!--<script type="text/javascript" th:src="@{/js/qrcode.js}"></script>-->
+<script type="text/javascript" th:src="@{/js/login.js}"></script>
+<script type="text/javascript" th:src="@{/js/errorCode.js}"></script>
+<script th:inline="javascript">
+
+
+    $('.pc_qr_code').qrcode({
+        render: "canvas",
+        width: 200,
+        height: 200,
+        correctLevel: 0,
+        text: content,
+        background: "#ffffff",
+        foreground: "black",
+        src: "/img/qrcode_logo.jpg"
+    });
+    var $qr=$('.pc_qr_code');
+    var qrcode=$qr[0];
+
+
+
+    const ctx = /*[[@{/}]]*/;
+    let socket = null;
+    let qrcode = new QRCode(document.getElementById('qrcode'), {
+        height: 290,
+        width: 290,
+        colorLight: '#f7f7f7'
+    });
+    let avatarEle = document.querySelector('.avatar img');
+    let warpper = document.querySelector('.warpper');
+    document.querySelector('input[name=account]').addEventListener('blur', function () {
+        if (this.value) {
+            // open 应该放在设置 responseType 之上，否则会因为 readyState 为 DONE 而不能设置 responseType
+            xhr.open('get', `${ctx}user/avatar/${this.value}`, true);
+            xhr.responseType = "text";
+            xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                if (this.status === 200 || this.status === 302) {
+                    avatarEle.src = this.response ? `${ctx}${this.response}` : `${ctx}images/default.jpeg`;
+                }
+            };
+            xhr.send();
+        } else {
+            avatarEle.src = `${ctx}images/default.jpeg`;
+        }
+    });
+    document.querySelector('.qrcode-login').addEventListener('click', function () {
+        //websocket用在这里 手机端扫码后返回状态 前端js做出响应
+        socket = new WebSocket(`ws://${window.location.host}/websocket/login`);
+        socket.onmessage = function (e) {
+            const data = JSON.parse(e.data);
+            switch (data.action) {
+                case 'connect':
+                    qrcode.clear();
+                    qrcode.makeCode(`${window.location.origin}/user/qrlogin/authorize?sid=${data.sid}`);
+                    warpper.style.animationName = 'show-qrcode';
+                    break;
+                case 'scanCode':
+                    warpper.style.animationName = 'scan-completed';
+                    break;
+                case 'agree':
+                    alert("电脑接收到socket传来的agree信号,准备去新的页面")
+                    // alert("电脑接收到socket传来的agree信号,准备去新的页面");
+                    window.location.href = `${ctx}user/home`;
+                    break;
+                case 'refuse':
+                    document.querySelector('.scan-result > .back > span').style.display = 'inline';
+                    document.querySelector('.scan-result > .icon > img').src = `${ctx}images/refuse.png`;
+                    document.querySelector('.scan-result > .message > p').innerHTML = '你被无情地拒绝了';
+                    socket && socket.close();
+                    break;
+                default:
+                    console.log(data);
+            }
+        };
+    });
+    document.querySelector('.qrcode-box > .back > span').addEventListener('click', function () {
+        warpper.style.animationName = 'cancel-qrlogin';
+        socket && socket.close();
+    });
+    document.querySelector('.scan-result > .back > span').addEventListener('click', function () {
+        warpper.style.animationName = 'back-login';
+        setTimeout(() => {
+            // 箭头函数中的 this 指向的是父级作用域而不是函数调用者
+            this.style.display = 'none';
+            document.querySelector('.scan-result > .icon > img').src = `${ctx}images/success.png`;
+            document.querySelector('.scan-result > .message > p').innerHTML = '请在手机确认完成登录';
+        }, 200);
+    });
+</script>
+
+
+
+</html>
