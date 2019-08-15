@@ -26,51 +26,72 @@
     <!--<script type="text/javascript" th:src="@{/js/login.js}"></script>-->
     <script type="text/javascript" th:src="@{/js/errorCode.js}"></script>
 
+    <style>
+        html,body{
+            width:100%;
+            height:100%
+        }
+        body{
+            font-family: "华文细黑";
+            background:url("http://localhost:8080/images/backgroud.jpg") no-repeat;
+            /*background-color: black;*/
+            /*opacity:0.5;*/
+            background-size: 100%;
+        }
+        form{
+            opacity:1;
+
+        }
+
+
+    </style>
+
+
+
 </head>
 <body class="text-center">
 <!--<a href="#" th:href="${#servletContext.contextPath}">这是什么</a>-->
 <form id="form" class="form-signin" action="dashboard.html" th:action="@{/user/login}" method="post">
-    <img class="mb-4" th:src="@{/img/bootstrap-solid.svg}" src="asserts/img/bootstrap-solid.svg" alt="" width="80"
-         height="80">
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <img style="width: 80px;height: 80px;margin-left: 50px;"  class="mb-4" th:src="@{/images/bootstrap-solid.svg}"  >
+
+    <h1 style="color: white;margin-left: 50px" class="h3 mb-3 font-weight-normal">Please Sign in</h1>
     <p style="color: red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
     <!--扫码登录-->
-    <div class="pc_sign_in_box">
-        <div class="pc_sign_in_title">
+    <div class="pc_sign_in_box" style="background: rgba(0,0,0,0)"  >
+        <div  class="pc_sign_in_title">
             <ul>
-                <li class="title_selected" data-id="1">扫码登录</li>
-                <li data-id="2">账号密码登录</li>
+                <li style="font-size: 18px"  class="title_selected" data-id="1">扫码登录</li>
+                <li style="font-size: 18px;color: #FFFFF4"  data-id="2">账号密码登录</li>
             </ul>
         </div>
-        <div class="pc_sign_in_cont">
+        <div style="opacity: 1" class="pc_sign_in_cont">
             <!--二维码-->
-            <div style="margin-right: 90px" class="pc_qr_code">
-                <div id="qrcode" ></div>
-
+            <div class="pc_qr_code">
+                <div id="qrcode"></div>
             </div>
-            <div style="margin-right: 50px" id="result">请使用手机扫码</div>
+            <div style="color: #FFFFF4;font-size: 10px;" id="result">请使用手机扫码</div>
         </div>
-        <div class="pc_sign_in_input">
+        <div  class="pc_sign_in_input">
             <label class="sr-only">Username</label>
-            <input type="text" v-model="account" class="form-control" placeholder="Username"
+            <input   type="text" v-model="account" class="form-control" placeholder="Username"
                    required="" autofocus="">
             <div style="margin-top: 7px"></div>
             <label class="sr-only">Password</label>
-            <input type="password"  v-model="password" class="form-control" placeholder="Password"
+            <input  type="password" v-model="password" class="form-control" placeholder="Password"
                    required="">
             <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" value="remember-me"/> remember-me
+                <label >
+                    <input  type="checkbox" value="remember-me"/> remember-me
                 </label>
             </div>
-            <button class="btn btn-lg btn-primary btn-block" type="button" @click="login()" >登录</button>
+            <button class="btn btn-lg btn-primary btn-block" type="button" @click="login()">登录</button>
             <!--<button class="btn btn-lg btn-primary btn-block" type="button" @click="login()"  >Sign in</button>-->
         </div>
 
     </div>
-    <p class="mt-5 mb-3 text-muted">© 2018-2019 Bravery 广州 海珠</p>
-    <a class="btn btn-sm" th:href="@{/index.html(l='zh_CN')}">中文</a>
-    <a class="btn btn-sm" th:href="@{/index.html(l='en_US')}">English</a>
+    <div style="color: #563D7C;font-size: 20px" class="mt-5 mb-3 text-input-context-menu">© 2018-2019 Bravery 广州 海珠</div>
+    <a style="color: white" class="btn btn-sm" href="#">中文</a>
+    <a style="color: white" class="btn btn-sm" href="#">English</a>
 </form>
 
 </body>
@@ -124,7 +145,7 @@
                     }
                 })
             },
-            resiger:function () {
+            resiger: function () {
                 // window.location.href = "/resigerPage";
             }
         }
@@ -132,13 +153,12 @@
 </script>
 
 
-
 <!--二维码js-->
 <script th:inline="javascript">
     const ctx = /*[[@{/}]]*/;
     let socket = null;
     let warpper = document.querySelector('.warpper');
-    window.onload = function () {
+    window.onload=function () {
         //websocket用在这里 手机端扫码后返回状态 前端js做出响应
         // alert("websocket用在这里 手机端扫码后返回状态 前端js做出响应")
         socket = new WebSocket(`ws://${window.location.host}/websocket/login`);
@@ -157,7 +177,7 @@
                         text: content,
                         background: "#ffffff",
                         foreground: "black",
-                        src: "/img/qrcode_logo.jpg"
+                        src: "/images/qrcode_logo.jpg"
                     });
                     var $qr = $('#qrcode');
                     var qrcode = $qr[0];
@@ -182,19 +202,20 @@
             }
         };
     };
+
 </script>
 
 <!--基础js-->
 <script type="text/javascript">
-    $(window).load(function () {
-        $(".pc_sign_in_box").addClass("bounce-in-down");
-    })
+    // $(window).load(function () {
+    //     $(".pc_sign_in_box").addClass("bounce-in-down");
+    // })
 
     $(".pc_sign_in_title ul li").on("click", function () {
-        $(this).parents(".pc_sign_in_title").find("ul li").removeClass("title_selected");
-        $(this).addClass("title_selected");
+        // $(this).parents(".pc_sign_in_title").find("ul li").removeClass("title_selected");
+        // $(this).addClass("title_selected");
         if ($(this).attr("data-id") == "1") {
-            $(".pc_sign_in_cont").show();
+            $(".bounce-in-down").show();
             $(".pc_sign_in_input").hide();
         } else {
             $(".pc_sign_in_cont").hide();
@@ -202,9 +223,6 @@
         }
     })
 </script>
-
-
-
 
 
 </html>
