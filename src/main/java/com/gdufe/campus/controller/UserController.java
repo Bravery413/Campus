@@ -29,10 +29,11 @@ public class UserController {
     @Autowired
     EmailConfig emailConfig;
 
-    @GetMapping("/loginPage")
+    @GetMapping("/login")
     public String loginPage() {
         return "user/login";
     }
+
     @GetMapping("/center")
     public String personalPage() {
         return "user/personal";
@@ -41,8 +42,8 @@ public class UserController {
     @ResponseBody
     @PostMapping("/login")
     public ResultVO login(@RequestBody UserVO userVO,
-                        Map<String, Object> map,
-                        HttpSession session) {
+                          Map<String, Object> map,
+                          HttpSession session) {
 
         UserDTO userDTO = new UserDTO();
         userDTO.setAccount(userVO.getAccount());

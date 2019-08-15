@@ -23,7 +23,7 @@ public class LessonMapperTest {
     }
 
     @Test
-    public void findByUser(Long uid) {
+    public void findByUser() {
         List<LessonDO> lessons = lessonMapper.findByUser(2L);
         Assert.assertNotNull("[代课] 查询全部代课失败", lessons);
     }

@@ -15,10 +15,10 @@ import java.util.List;
 @Component
 public interface LessonMapper {
 
-    @Select("select * from lesson ")
+    @Select("select * from lesson  ORDER BY last_time desc ")
     List<LessonDO> findAll();
 
-    @Select("select * from lesson where uid=#{uid} ")
+    @Select("select * from lesson where uid=#{uid} ORDER BY last_time desc ")
     List<LessonDO> findByUser(Long uid);
 
     @Select("select * from lesson where id=#{id}")

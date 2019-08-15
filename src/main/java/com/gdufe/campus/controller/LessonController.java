@@ -6,6 +6,7 @@ import com.gdufe.campus.pojo.DTO.UserDTO;
 import com.gdufe.campus.pojo.VO.LessonVO;
 import com.gdufe.campus.pojo.VO.ResultVO;
 import com.gdufe.campus.service.Impl.LessonServiceImpl;
+import com.gdufe.campus.utils.LoginSessonUtil;
 import com.gdufe.campus.utils.ResultVOUtil;
 import com.wf.captcha.utils.CaptchaUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -68,24 +69,25 @@ public class LessonController {
     //TODO 去接到前端
     @ResponseBody
     @PostMapping("/add")
-    public ResultVO add(@RequestBody LessonVO lessonVO, HttpServletRequest request) {
+    public ResultVO add(@RequestBody LessonVO lessonVO, HttpServletRequest request,
+                        HttpSession session) {
 
 
         if (!CaptchaUtil.ver(lessonVO.getCode(), request)) {
             CaptchaUtil.clear(request);
             return ResultVOUtil.error(ResultEnum.CODE_ERROR.getCode(),ResultEnum.CODE_ERROR.getMessage());
         }
-        else {
+        LessonDTO lessonDTO = new LessonDTO();
+        BeanUtils.copyProperties(lessonVO,lessonDTO);
+        UserDTO user = LoginSessonUtil.loginUser(session);
+        Long uid = user.getId();
+        lessonDTO.setUid(uid);
+        Integer add = lessonService.addLesson(lessonDTO);
+        if (add==1){
             return ResultVOUtil.success();
         }
-//        LessonDTO lessonDTO = new LessonDTO();
-//        BeanUtils.copyProperties(lessonVO,lessonDTO);
-//        Integer add = lessonService.addLesson(lessonDTO);
-//        if (add==1){
-//            return ResultVOUtil.success();
-//        }
-//        return ResultVOUtil.error(ResultEnum.ADD_FAILED.getCode(),
-//                ResultEnum.ADD_FAILED.getMessage());
+        return ResultVOUtil.error(ResultEnum.ADD_FAILED.getCode(),
+                ResultEnum.ADD_FAILED.getMessage());
 
     }
 
