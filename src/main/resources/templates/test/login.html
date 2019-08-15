@@ -26,7 +26,7 @@
 <body class="text-center">
 <!--<a href="#" th:href="${#servletContext.contextPath}">这是什么</a>-->
 <form class="form-signin" action="dashboard.html" th:action="@{/user/login}" method="post">
-    <img class="mb-4" th:src="@{/img/bootstrap-solid.svg}" src="asserts/img/bootstrap-solid.svg" alt="" width="72"
+    <img class="mb-4" th:src="@{/images/bootstrap-solid.svg}" src="asserts/img/bootstrap-solid.svg" alt="" width="72"
          height="72">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <p style="color: red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
@@ -129,7 +129,7 @@
         // var content =  "http://"+"${pageContext.request.serverName}"+":"+"${pageContext.request.serverPort}"+"/scanLogin?uuid="+uuid;
         //域名备案成功换成这个
         // var content =  "http://"+"braverymall"+"/scanLogin?uuid="+uuid;
-        var content =${window.location.origin}/user/qrlogin/authorize?sid=${data.sid}
+        // var content =${window.location.origin}/user/qrlogin/authorize?sid=${data.sid}
         var content = "http://" + window.location.host + "/scanLogin?uuid=" + uuid;
         console.dir("扫码url: " + content);
         var contextRootPath = "${ctx}";
@@ -142,7 +142,7 @@
             text: content,
             background: "#ffffff",
             foreground: "black",
-            src: "/img/qrcode_logo.jpg"
+            src: "/images/qrcode_logo.jpg"
         });
 
         setCookie("sid", 123, -1 * 60 * 60 * 1000);
@@ -192,96 +192,6 @@
 
 </script>
 
-<!--<script type="text/javascript" th:src="@{/js/qrcode.js}"></script>-->
-<script type="text/javascript" th:src="@{/js/login.js}"></script>
-<script type="text/javascript" th:src="@{/js/errorCode.js}"></script>
-<script th:inline="javascript">
-
-
-    $('.pc_qr_code').qrcode({
-        render: "canvas",
-        width: 200,
-        height: 200,
-        correctLevel: 0,
-        text: content,
-        background: "#ffffff",
-        foreground: "black",
-        src: "/img/qrcode_logo.jpg"
-    });
-    var $qr=$('.pc_qr_code');
-    var qrcode=$qr[0];
-
-
-
-    const ctx = /*[[@{/}]]*/;
-    let socket = null;
-    let qrcode = new QRCode(document.getElementById('qrcode'), {
-        height: 290,
-        width: 290,
-        colorLight: '#f7f7f7'
-    });
-    let avatarEle = document.querySelector('.avatar img');
-    let warpper = document.querySelector('.warpper');
-    document.querySelector('input[name=account]').addEventListener('blur', function () {
-        if (this.value) {
-            // open 应该放在设置 responseType 之上，否则会因为 readyState 为 DONE 而不能设置 responseType
-            xhr.open('get', `${ctx}user/avatar/${this.value}`, true);
-            xhr.responseType = "text";
-            xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
-            xhr.onload = function () {
-                if (this.status === 200 || this.status === 302) {
-                    avatarEle.src = this.response ? `${ctx}${this.response}` : `${ctx}images/default.jpeg`;
-                }
-            };
-            xhr.send();
-        } else {
-            avatarEle.src = `${ctx}images/default.jpeg`;
-        }
-    });
-    document.querySelector('.qrcode-login').addEventListener('click', function () {
-        //websocket用在这里 手机端扫码后返回状态 前端js做出响应
-        socket = new WebSocket(`ws://${window.location.host}/websocket/login`);
-        socket.onmessage = function (e) {
-            const data = JSON.parse(e.data);
-            switch (data.action) {
-                case 'connect':
-                    qrcode.clear();
-                    qrcode.makeCode(`${window.location.origin}/user/qrlogin/authorize?sid=${data.sid}`);
-                    warpper.style.animationName = 'show-qrcode';
-                    break;
-                case 'scanCode':
-                    warpper.style.animationName = 'scan-completed';
-                    break;
-                case 'agree':
-                    alert("电脑接收到socket传来的agree信号,准备去新的页面")
-                    // alert("电脑接收到socket传来的agree信号,准备去新的页面");
-                    window.location.href = `${ctx}user/home`;
-                    break;
-                case 'refuse':
-                    document.querySelector('.scan-result > .back > span').style.display = 'inline';
-                    document.querySelector('.scan-result > .icon > img').src = `${ctx}images/refuse.png`;
-                    document.querySelector('.scan-result > .message > p').innerHTML = '你被无情地拒绝了';
-                    socket && socket.close();
-                    break;
-                default:
-                    console.log(data);
-            }
-        };
-    });
-    document.querySelector('.qrcode-box > .back > span').addEventListener('click', function () {
-        warpper.style.animationName = 'cancel-qrlogin';
-        socket && socket.close();
-    });
-    document.querySelector('.scan-result > .back > span').addEventListener('click', function () {
-        warpper.style.animationName = 'back-login';
-        setTimeout(() => {
-            // 箭头函数中的 this 指向的是父级作用域而不是函数调用者
-            this.style.display = 'none';
-            document.querySelector('.scan-result > .icon > img').src = `${ctx}images/success.png`;
-            document.querySelector('.scan-result > .message > p').innerHTML = '请在手机确认完成登录';
-        }, 200);
-    });
-</script>
 
 
 

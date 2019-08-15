@@ -167,7 +167,6 @@
             console.log(data)
             switch (data.action) {
                 case 'connect':
-                    // qrcode.makeCode(`${window.location.origin}/user/qrlogin/authorize?sid=${data.sid}`);
                     var content = window.location.origin + '/user/qrlogin/authorize?sid=' + data.sid;
                     $('#qrcode').qrcode({
                         render: "canvas",
@@ -179,11 +178,12 @@
                         foreground: "black",
                         src: "/images/qrcode_logo.jpg"
                     });
-                    var $qr = $('#qrcode');
-                    var qrcode = $qr[0];
+                    // var $qr = $('#qrcode');
+                    // var qrcode = $qr[0];
                     // warpper.style.animationName = 'show-qrcode';
                     break;
                 case 'scanCode':
+                    alert("扫描成功")
                     // warpper.style.animationName = 'scan-completed';
                     break;
                 case 'agree':
