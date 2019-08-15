@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>登录</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>您好,请登录</title>
+
+    <div th:replace="commons/head::head"></div>
 
     <!-- Bootstrap core CSS -->
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
@@ -18,15 +23,15 @@
             th:src="@{/js/qrcode/jquery.qrcode.js}"></script>
     <script type="text/javascript" src="${ctx}/js/qrcode/utf.js"
             th:src="@{/js/qrcode/utf.js}"></script>
-    <script type="text/javascript" th:src="@{/js/login.js}"></script>
+    <!--<script type="text/javascript" th:src="@{/js/login.js}"></script>-->
     <script type="text/javascript" th:src="@{/js/errorCode.js}"></script>
 
 </head>
 <body class="text-center">
 <!--<a href="#" th:href="${#servletContext.contextPath}">这是什么</a>-->
-<form class="form-signin" action="dashboard.html" th:action="@{/user/login}" method="post">
-    <img class="mb-4" th:src="@{/img/bootstrap-solid.svg}" src="asserts/img/bootstrap-solid.svg" alt="" width="72"
-         height="72">
+<form id="form" class="form-signin" action="dashboard.html" th:action="@{/user/login}" method="post">
+    <img class="mb-4" th:src="@{/img/bootstrap-solid.svg}" src="asserts/img/bootstrap-solid.svg" alt="" width="80"
+         height="80">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <p style="color: red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
     <!--扫码登录-->
@@ -39,24 +44,27 @@
         </div>
         <div class="pc_sign_in_cont">
             <!--二维码-->
-            <div class="pc_qr_code">
-                <div id="qrcode"></div>
+            <div style="margin-right: 90px" class="pc_qr_code">
+                <div id="qrcode" ></div>
+
             </div>
-            <div id="result">请使用手机扫码</div>
+            <div style="margin-right: 50px" id="result">请使用手机扫码</div>
         </div>
         <div class="pc_sign_in_input">
             <label class="sr-only">Username</label>
-            <input type="text" name="username" class="form-control" placeholder="Username"
+            <input type="text" v-model="account" class="form-control" placeholder="Username"
                    required="" autofocus="">
+            <div style="margin-top: 7px"></div>
             <label class="sr-only">Password</label>
-            <input type="password" name="password" class="form-control" placeholder="Password"
+            <input type="password"  v-model="password" class="form-control" placeholder="Password"
                    required="">
             <div class="checkbox mb-3">
                 <label>
                     <input type="checkbox" value="remember-me"/> remember-me
                 </label>
             </div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit" >Sign in</button>
+            <button class="btn btn-lg btn-primary btn-block" type="button" @click="login()" >登录</button>
+            <!--<button class="btn btn-lg btn-primary btn-block" type="button" @click="login()"  >Sign in</button>-->
         </div>
 
     </div>
@@ -68,9 +76,64 @@
 </body>
 <input style="width: 1px;" name="account" placeholder="Username" autocomplete="off" required autofocus>
 
+<!--Vue.js 登录动作-->
+<script>
+    new Vue({
+        el: "#form",
+        data: {
+            account: '',
+            password: ''
+        },
+        created: function () {
+        },
+        watch: {
+            name: function (val) {
+                var self = this;
+                self.name = val.trim();
+            },
+            password: function (val) {
+                var self = this;
+                self.password = val.trim();
+            }
+        },
+        methods: {
+            login: function () {
+                const self = this;
+                if (self.username == '') {
+                    alert('用户名不能为空');
+                    return
+                }
+                if (self.password == '') {
+                    alert('密码不能为空');
+                    return
+                }
+                var url = "/user/login";
+                self.$http.post(url, {
+                    'account': self.account,
+                    'password': self.password
+                }).then(function (response) {
+                    var res = response.data;
+                    if (res.code == 1000) {
+                        window.location.href = "/lesson/listPage";
+                    } else if (res.code == 800001) {
+                        alert('账号不存在或密码错误');
+                    } else if (res.code == 200005) {
+                        alert('账号被禁用,请联系管理员', 2000);
+                    } else {
+                        alert('登录失败.' + res.msg, 2000);
+                    }
+                })
+            },
+            resiger:function () {
+                // window.location.href = "/resigerPage";
+            }
+        }
+    })
+</script>
 
 
-<!--新的js-->
+
+<!--二维码js-->
 <script th:inline="javascript">
     const ctx = /*[[@{/}]]*/;
     let socket = null;
@@ -98,10 +161,10 @@
                     });
                     var $qr = $('#qrcode');
                     var qrcode = $qr[0];
-                    warpper.style.animationName = 'show-qrcode';
+                    // warpper.style.animationName = 'show-qrcode';
                     break;
                 case 'scanCode':
-                    warpper.style.animationName = 'scan-completed';
+                    // warpper.style.animationName = 'scan-completed';
                     break;
                 case 'agree':
                     alert("1电脑接收到socket传来的agree信号,准备去新的页面")
@@ -121,8 +184,7 @@
     };
 </script>
 
-
-<!--旧的js-->
+<!--基础js-->
 <script type="text/javascript">
     $(window).load(function () {
         $(".pc_sign_in_box").addClass("bounce-in-down");
@@ -139,37 +201,9 @@
             $(".pc_sign_in_input").show();
         }
     })
-
-    function testSign(showText) {
-        $(".test_sign_in").css({
-            "visibility": "visible"
-        }).html(showText);
-    }
-
-    //账号密码登录
-    $(".sign_btn").on("click", function () {
-        if ($("#username").val() == "") {
-            testSign("账号不能为空");
-            return;
-        }
-        if ($("#password").val() == "") {
-            testSign("密码不能为空");
-            return;
-        }
-        $.post("/user/login",
-            {
-                username: $("#username").val(),
-                password: $("#password").val()
-            },
-            function (msg) {
-                if (msg.successFlag == '1') {
-                    window.location.href = ctx + "/webstage/login/success.do";
-                } else {
-                    errorBombBox(msg.message);//调报错弹框
-                }
-            })
-    })
 </script>
+
+
 
 
 
