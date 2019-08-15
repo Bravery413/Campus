@@ -88,8 +88,11 @@ public class UserController {
 //			res.put("success", false);
 //			res.put("code", "1002");
 //		}
+
         //这里只是返回数据给手机端
         //手机端根据情况再发送请求页面
+        UserDTO user = userService.findUserById(2L);
+        LoginSessonUtil.setloginUser(user,session);
         return res;
     }
 
@@ -104,8 +107,7 @@ public class UserController {
 //			User user = userService.findById(userId);
 //			model.addObject("user", user);
         if (request.getHeader("user-agent").contains("Mobile")) {
-            UserDTO user = userService.findUserById(2L);
-            LoginSessonUtil.setloginUser(user,session);
+
             model.setViewName("/lesson/lesson");
         } else {
             model.setViewName("/user/m_home");
