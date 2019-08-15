@@ -10,8 +10,11 @@ import javax.servlet.http.HttpSession;
  */
 public class LoginSessonUtil {
     public final static String USER_SESSON = "loginUser";
-    public static UserDTO loginUser(HttpSession session){
+    public static UserDTO getLoginUser(HttpSession session){
         return  (UserDTO)session.getAttribute(USER_SESSON);
+    }
+    public static void setloginUser(UserDTO userDTO,HttpSession session){
+        session.setAttribute(USER_SESSON,userDTO);
     }
 
 

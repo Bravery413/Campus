@@ -7,17 +7,24 @@ import com.gdufe.campus.pojo.DTO.UserDTO;
 import com.gdufe.campus.pojo.VO.ResultVO;
 import com.gdufe.campus.pojo.VO.UserVO;
 import com.gdufe.campus.service.UserService;
+import com.gdufe.campus.utils.LoginSessonUtil;
 import com.gdufe.campus.utils.ResultVOUtil;
+import com.gdufe.campus.websocket.handler.QRCodeLoginHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.manager.util.SessionUtils;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -41,6 +48,80 @@ public class UserController {
         }
         return model;
     }
+
+    /**
+     * 扫码后手机发起的Get请求
+     * socket发送消息给电脑端
+     * 手机返回电脑型号
+     */
+
+    @GetMapping("/qrlogin/authorize")
+    public ModelAndView qrcodeLogin(@RequestParam String sid, HttpServletRequest request) throws IOException {
+        ModelAndView model = new ModelAndView("/user/m_authorize");
+        request.getSession().setAttribute("sessionId", sid);
+        WebSocketSession socketSession = QRCodeLoginHandler.getSession(sid);
+        socketSession.sendMessage(new TextMessage("{\"action\": \"scanCode\"}"));
+        model.addObject("ipAddr", socketSession.getAttributes().get("ipAddr"));
+        return model;
+    }
+
+
+    @PostMapping("/qrlogin/authorize")
+    public Map<String, Object> authorize(boolean agree, HttpServletRequest request,
+                                         HttpSession session) throws IOException {
+        Map<String, Object> res = new HashMap<>();
+//		Integer userId = (Integer) request.getSession().getAttribute("userId");
+//		if (userId != null) {
+        res.put("success", true);
+        String sessionId = (String) request.getSession().getAttribute("sessionId");
+        WebSocketSession socketSession = QRCodeLoginHandler.getSession(sessionId);
+        if (agree) {
+//            HttpSession httpSession = (HttpSession) socketSession.getAttributes().get("httpSession");
+//            httpSession.setAttribute("userId", userId);
+            socketSession.sendMessage(new TextMessage("{\"action\": \"agree\"}"));
+        } else {
+            socketSession.sendMessage(new TextMessage("{\"action\": \"refuse\"}"));
+        }
+//        request.getSession().removeAttribute("sessionId");
+        socketSession.close();
+//		} else {
+//			res.put("success", false);
+//			res.put("code", "1002");
+//		}
+        //这里只是返回数据给手机端
+        //手机端根据情况再发送请求页面
+        return res;
+    }
+
+
+    @GetMapping("/home")
+    public ModelAndView homePage(HttpServletRequest request,HttpSession session) {
+        ModelAndView model = new ModelAndView();
+//		Integer userId = (Integer) request.getSession().getAttribute("userId");
+//		if (userId == null) {
+//			model.setViewName("redirect:/user/login");
+//		} else {
+//			User user = userService.findById(userId);
+//			model.addObject("user", user);
+        if (request.getHeader("user-agent").contains("Mobile")) {
+            UserDTO user = userService.findUserById(2L);
+            LoginSessonUtil.setloginUser(user,session);
+            model.setViewName("/lesson/lesson");
+        } else {
+            model.setViewName("/user/m_home");
+        }
+//		}
+        return model;
+    }
+
+
+
+
+
+
+
+
+
 
     @GetMapping("/center")
     public String personalPage() {

@@ -79,7 +79,7 @@ public class LessonController {
         }
         LessonDTO lessonDTO = new LessonDTO();
         BeanUtils.copyProperties(lessonVO,lessonDTO);
-        UserDTO user = LoginSessonUtil.loginUser(session);
+        UserDTO user = LoginSessonUtil.getLoginUser(session);
         Long uid = user.getId();
         lessonDTO.setUid(uid);
         Integer add = lessonService.addLesson(lessonDTO);
