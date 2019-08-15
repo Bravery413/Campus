@@ -64,7 +64,10 @@
 	<script type="text/javascript" th:src="@{/js/login.js}"></script>
 	<script type="text/javascript" th:src="@{/js/errorCode.js}"></script>
 	<script th:inline="javascript">
+		// const host=location.host;
+		// alert(location.host)
 		const ctx = /*[[@{/}]]*/;
+		// alert(ctx);
 		let socket = null;
 		let qrcode = new QRCode(document.getElementById('qrcode'), {
 			height: 290,
@@ -104,8 +107,9 @@
 					warpper.style.animationName = 'scan-completed';
 					break;
 				case 'agree':
-					// alert("电脑接收到socket传来的agree信号,准备去新的页面")
-					window.location.href = `http://192.168.10.83:8080/user/home`;
+					alert("电脑接收到socket传来的agree信号,准备去新的页面")
+					// alert("电脑接收到socket传来的agree信号,准备去新的页面");
+					window.location.href = `${ctx}user/home`;
 					break;
 				case 'refuse':
 					document.querySelector('.scan-result > .back > span').style.display = 'inline';
@@ -127,7 +131,7 @@
 			setTimeout(() => {
 				// 箭头函数中的 this 指向的是父级作用域而不是函数调用者
 				this.style.display = 'none';
-				document.querySelector('.scan-result > .icon > img').src = `http://192.168.10.83:8080/images/success.png`;
+				document.querySelector('.scan-result > .icon > img').src = `${ctx}images/success.png`;
 				document.querySelector('.scan-result > .message > p').innerHTML = '请在手机确认完成登录';
 			}, 200);
 		});

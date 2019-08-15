@@ -25,23 +25,27 @@
 <script type="text/javascript" th:src="@{/js/errorCode.js}"></script>
 <script th:inline="javascript">
     (function (win, doc) {
+        // const host=location.host;
+        // alert(host);
         const ctx = /*[[@{/}]]*/;
         const xhr = new XMLHttpRequest();
         doc.querySelectorAll('.ctrl button').forEach(button => {
             button.addEventListener('click', function () {
                 //手机端扫码发送的请求
-                xhr.open('post', `http://192.168.10.83:8080/user/qrlogin/authorize`, true);
+                // const url=host+'/user/qrlogin/authorize';
+                // alert(url);
+                xhr.open('post', "/user/qrlogin/authorize", true);
                 xhr.responseType = "json";
                 xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
-                alert("手机端准备发送请求");
+                // alert("手机端准备发送请求");
                 xhr.onload = function () {
-                    alert("手机端发送请求完毕");
+                    // alert("手机端发送请求完毕");
                     // if (this.status === 200 || this.status === 302) {
                         const response = this.response;
-                        alert("手机端跳去的页面")
-                        //手机端跳去的页面
+                        // alert("手机端跳去的页面")
+                        // 手机端跳去的页面
                         // if (response.success) {
-                        win.location.href = `http://192.168.10.83:8080/user/home`;
+                        win.location.href = `/user/home`;
                         // } else {
                         // 	alert(ERR[response.code]);
                         // }

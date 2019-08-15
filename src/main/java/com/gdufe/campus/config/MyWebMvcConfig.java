@@ -20,6 +20,7 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
                 //非拦截路径
                 .excludePathPatterns("/user/login")
                 .excludePathPatterns("/user/qrlogin/authorize")
+                .excludePathPatterns("/user/home")
                 .excludePathPatterns("/static/**")
                 .excludePathPatterns("/css/**")
                 .excludePathPatterns("/js/**")
