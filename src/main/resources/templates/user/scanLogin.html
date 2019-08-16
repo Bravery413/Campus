@@ -6,14 +6,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>您好,请登录</title>
-
     <div th:replace="commons/head::head"></div>
-
     <!-- Bootstrap core CSS -->
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link th:href="@{/css/signin.css}" rel="stylesheet">
-
     <!--扫码登录的link-->
     <link rel="stylesheet" type="text/css" href="${ctx}/css/base.css"
           th:href="@{/css/base.css}">
@@ -25,43 +22,36 @@
             th:src="@{/js/qrcode/utf.js}"></script>
     <!--<script type="text/javascript" th:src="@{/js/login.js}"></script>-->
     <script type="text/javascript" th:src="@{/js/errorCode.js}"></script>
-
     <style>
-        html,body{
-            width:100%;
-            height:100%
+        html, body {
+            width: 100%;
+            height: 100%
         }
-        body{
+
+        body {
             font-family: "华文细黑";
-            background:url("http://localhost:8080/images/backgroud.jpg") no-repeat;
+            background: url("http://127.0.0.1:8080/images/backgroud.jpg") no-repeat;
             /*background-color: black;*/
             /*opacity:0.5;*/
             background-size: 100%;
-        }
-        form{
-            opacity:1;
-
         }
 
 
     </style>
 
-
-
 </head>
 <body class="text-center">
-<!--<a href="#" th:href="${#servletContext.contextPath}">这是什么</a>-->
 <form id="form" class="form-signin" action="dashboard.html" th:action="@{/user/login}" method="post">
-    <img style="width: 80px;height: 80px;margin-left: 50px;"  class="mb-4" th:src="@{/images/bootstrap-solid.svg}"  >
-
+    <img style="width: 80px;height: 80px;margin-left: 50px;" class="mb-4"
+         th:src="@{/images/bootstrap-solid.svg}">
     <h1 style="color: white;margin-left: 50px" class="h3 mb-3 font-weight-normal">Please Sign in</h1>
     <p style="color: red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
     <!--扫码登录-->
-    <div class="pc_sign_in_box" style="background: rgba(0,0,0,0)"  >
-        <div  class="pc_sign_in_title">
+    <div class="pc_sign_in_box bounce-in-down" style="background: rgba(0,0,0,0)">
+        <div class="pc_sign_in_title">
             <ul>
-                <li style="font-size: 18px"  class="title_selected" data-id="1">扫码登录</li>
-                <li style="font-size: 18px;color: #FFFFF4"  data-id="2">账号密码登录</li>
+                <li style="font-size: 18px" class="title_selected" data-id="1">扫码登录</li>
+                <li style="font-size: 18px;color: #FFFFF4" data-id="2">账号密码登录</li>
             </ul>
         </div>
         <div style="opacity: 1" class="pc_sign_in_cont">
@@ -71,31 +61,84 @@
             </div>
             <div style="color: #FFFFF4;font-size: 10px;" id="result">请使用手机扫码</div>
         </div>
-        <div  class="pc_sign_in_input">
+        <div class="pc_sign_in_input">
             <label class="sr-only">Username</label>
-            <input   type="text" v-model="account" class="form-control" placeholder="Username"
+            <input type="text" v-model="account" class="form-control" placeholder="Username"
                    required="" autofocus="">
             <div style="margin-top: 7px"></div>
             <label class="sr-only">Password</label>
-            <input  type="password" v-model="password" class="form-control" placeholder="Password"
+            <input type="password" v-model="password" class="form-control" placeholder="Password"
                    required="">
             <div class="checkbox mb-3">
-                <label >
-                    <input  type="checkbox" value="remember-me"/> remember-me
+                <label>
+                    <input type="checkbox" value="remember-me"/> remember-me
                 </label>
             </div>
-            <button class="btn btn-lg btn-primary btn-block" type="button" @click="login()">登录</button>
-            <!--<button class="btn btn-lg btn-primary btn-block" type="button" @click="login()"  >Sign in</button>-->
+            <button class="btn btn-lg btn-primary btn-block" type="button" @click="login()">Sign in</button>
         </div>
 
     </div>
-    <div style="color: #563D7C;font-size: 20px" class="mt-5 mb-3 text-input-context-menu">© 2018-2019 Bravery 广州 海珠</div>
+    <div style="color: #563D7C;font-size: 20px" class="mt-5 mb-3 text-input-context-menu">© 2018-2019 Bravery 广州 海珠
+    </div>
     <a style="color: white" class="btn btn-sm" href="#">中文</a>
     <a style="color: white" class="btn btn-sm" href="#">English</a>
-</form>
+    <input style="width: 1px;" name="account" placeholder="Username" autocomplete="off" required autofocus>
 
+</form>
+<!--扫描成功显示元素-->
+<div id="success" style="width: 150px">
+    <img>
+    <div style="color: #FFFFF4;font-size: 12px;"></div>
+</div>
 </body>
-<input style="width: 1px;" name="account" placeholder="Username" autocomplete="off" required autofocus>
+
+<!--二维码js-->
+<script th:inline="javascript">
+    const ctx = /*[[@{/}]]*/;
+    let socket = null;
+    let warpper = document.querySelector('.warpper');
+    window.onload = function () {
+        $("#success").hide();
+        //websocket用在这里 手机端扫码后返回状态 前端js做出响应
+        // alert("websocket用在这里 手机端扫码后返回状态 前端js做出响应")
+        socket = new WebSocket(`ws://${window.location.host}/websocket/login`);
+        socket.onmessage = function (e) {
+            const data = JSON.parse(e.data);
+            console.log(data)
+            switch (data.action) {
+                case 'connect':
+                    var content = window.location.origin + '/user/qrlogin/authorize?sid=' + data.sid;
+                    $('#qrcode').qrcode({
+                        render: "canvas",
+                        width: 200,
+                        height: 200,
+                        correctLevel: 0,
+                        text: content,
+                        background: "#ffffff",
+                        foreground: "black",
+                        src: "/images/qrcode_logo.jpg"
+                    });
+                    break;
+                case 'scanCode':
+                    // alert("扫描成功")
+                    success();
+                    break;
+                case 'agree':
+                    // 客户端同意登录
+                    window.location.href = `${ctx}user/home`;
+                    break;
+                case 'refuse':
+                    document.querySelector('.scan-result > .back > span').style.display = 'inline';
+                    document.querySelector('.scan-result > .icon > img').src = `${ctx}images/refuse.png`;
+                    document.querySelector('.scan-result > .message > p').innerHTML = '你被无情地拒绝了';
+                    socket && socket.close();
+                    break;
+                default:
+                    console.log(data);
+            }
+        };
+    };
+</script>
 
 <!--Vue.js 登录动作-->
 <script>
@@ -145,77 +188,28 @@
                     }
                 })
             },
-            resiger: function () {
-                // window.location.href = "/resigerPage";
-            }
         }
     })
 </script>
 
-
-<!--二维码js-->
-<script th:inline="javascript">
-    const ctx = /*[[@{/}]]*/;
-    let socket = null;
-    let warpper = document.querySelector('.warpper');
-    window.onload=function () {
-        //websocket用在这里 手机端扫码后返回状态 前端js做出响应
-        // alert("websocket用在这里 手机端扫码后返回状态 前端js做出响应")
-        socket = new WebSocket(`ws://${window.location.host}/websocket/login`);
-        socket.onmessage = function (e) {
-            const data = JSON.parse(e.data);
-            console.log(data)
-            switch (data.action) {
-                case 'connect':
-                    var content = window.location.origin + '/user/qrlogin/authorize?sid=' + data.sid;
-                    $('#qrcode').qrcode({
-                        render: "canvas",
-                        width: 200,
-                        height: 200,
-                        correctLevel: 0,
-                        text: content,
-                        background: "#ffffff",
-                        foreground: "black",
-                        src: "/images/qrcode_logo.jpg"
-                    });
-                    // var $qr = $('#qrcode');
-                    // var qrcode = $qr[0];
-                    // warpper.style.animationName = 'show-qrcode';
-                    break;
-                case 'scanCode':
-                    alert("扫描成功")
-                    // warpper.style.animationName = 'scan-completed';
-                    break;
-                case 'agree':
-                    alert("1电脑接收到socket传来的agree信号,准备去新的页面")
-                    window.location.href = `${ctx}user/home`;
-                    alert("2电脑接收到socket传来的agree信号,准备去新的页面")
-                    break;
-                case 'refuse':
-                    document.querySelector('.scan-result > .back > span').style.display = 'inline';
-                    document.querySelector('.scan-result > .icon > img').src = `${ctx}images/refuse.png`;
-                    document.querySelector('.scan-result > .message > p').innerHTML = '你被无情地拒绝了';
-                    socket && socket.close();
-                    break;
-                default:
-                    console.log(data);
-            }
-        };
-    };
-
+<!--登录成功js-->
+<script>
+    var success = function () {
+        $("form").hide();
+        document.querySelector('#success>img').src = `${ctx}images/success.png`;
+        $("#success").show();
+        document.querySelector('#success>div').innerHTML = '请在手机确认完成登录';
+    }
 </script>
 
-<!--基础js-->
+<!--登录方式转换js-->
 <script type="text/javascript">
-    // $(window).load(function () {
-    //     $(".pc_sign_in_box").addClass("bounce-in-down");
-    // })
 
     $(".pc_sign_in_title ul li").on("click", function () {
-        // $(this).parents(".pc_sign_in_title").find("ul li").removeClass("title_selected");
-        // $(this).addClass("title_selected");
+        $(this).parents(".pc_sign_in_title").find("ul li").removeClass("title_selected");
+        $(this).addClass("title_selected");
         if ($(this).attr("data-id") == "1") {
-            $(".bounce-in-down").show();
+            $(".pc_sign_in_cont").show();
             $(".pc_sign_in_input").hide();
         } else {
             $(".pc_sign_in_cont").hide();
