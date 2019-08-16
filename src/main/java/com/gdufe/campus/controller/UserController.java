@@ -4,12 +4,15 @@ import com.gdufe.campus.config.EmailConfig;
 import com.gdufe.campus.enums.ResultEnum;
 import com.gdufe.campus.exception.BusinessException;
 import com.gdufe.campus.pojo.DTO.UserDTO;
+import com.gdufe.campus.pojo.VO.MobilePassVO;
 import com.gdufe.campus.pojo.VO.ResultVO;
 import com.gdufe.campus.pojo.VO.UserVO;
 import com.gdufe.campus.service.UserService;
+import com.gdufe.campus.utils.JsonUtil;
 import com.gdufe.campus.utils.LoginSessonUtil;
 import com.gdufe.campus.utils.ResultVOUtil;
 import com.gdufe.campus.websocket.handler.QRCodeLoginHandler;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.BeanUtils;
@@ -64,22 +67,19 @@ public class UserController {
         return model;
     }
 
-
+    @ResponseBody
     @PostMapping("/qrlogin/authorize")
-    public Map<String, Object> authorize(boolean agree, HttpServletRequest request,
-                                         HttpSession session) throws IOException {
-        Map<String, Object> res = new HashMap<>();
+    public ResultVO authorize(@RequestBody MobilePassVO mobilePassVO, HttpServletRequest request) throws IOException {
         String sessionId = (String) request.getSession().getAttribute("sessionId");
         WebSocketSession socketSession = QRCodeLoginHandler.getSession(sessionId);
-        if (agree) {
+        if (mobilePassVO.getAgree()) {
             socketSession.sendMessage(new TextMessage("{\"action\": \"agree\"}"));
             //登录成功,扫码登录完成 socket可以关掉了
             socketSession.close();
         } else {
             socketSession.sendMessage(new TextMessage("{\"action\": \"refuse\"}"));
         }
-        res.put("success", true);
-        return res;
+        return ResultVOUtil.success();
     }
 
 
