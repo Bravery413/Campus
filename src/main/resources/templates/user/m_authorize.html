@@ -7,17 +7,18 @@
     <link rel="stylesheet" th:href="@{/css/m_authorize.css}">
 </head>
 <body>
+<!--这里需要重新弄下-->
 <div class="container">
     <header class="icon">
-        <img th:src="@{/images/pc_icon.png}">
+        <img th:src="@{/images/pc.png}">
     </header>
     <section>
         <article class="message">
             <p th:inline="text">您的账号正试图在一台电脑([[${ipAddr}]])登录，请选择是否允许。</p>
         </article>
         <article class="ctrl">
-            <button data-agree="true">允许登录</button>
-            <button data-agree="false">拒绝</button>
+            <button style="background-color: #2BA245" data-agree="true">允许登录</button>
+            <button #E22018 data-agree="false">拒绝</button>
         </article>
     </section>
 </div>

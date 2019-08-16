@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Controller
 public class BaseController {
 
-    @GetMapping("/test/login")
+    @GetMapping("/mobile/login")
     public String test() {
-        return "test/login";
+        return "user/m_authorize.html";
     }
 
 }
