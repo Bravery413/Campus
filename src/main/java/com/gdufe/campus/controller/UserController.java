@@ -9,10 +9,8 @@ import com.gdufe.campus.pojo.VO.UserVO;
 import com.gdufe.campus.service.UserService;
 import com.gdufe.campus.utils.LoginSessonUtil;
 import com.gdufe.campus.utils.ResultVOUtil;
-import com.gdufe.campus.utils.StringUtils;
 import com.gdufe.campus.websocket.handler.QRCodeLoginHandler;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.manager.util.SessionUtils;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +41,9 @@ public class UserController {
     public ModelAndView loginPage(HttpServletRequest request) {
         ModelAndView model = new ModelAndView();
         if (request.getHeader("user-agent").contains("Mobile")){
-            model.setViewName("user/login");
+            model.setViewName("/user/mobile_login");
         }else {
-            model.setViewName("user/scanLogin");
+            model.setViewName("/user/scanLogin");
         }
         return model;
     }
@@ -82,6 +80,8 @@ public class UserController {
 //            HttpSession httpSession = (HttpSession) socketSession.getAttributes().get("httpSession");
 //            httpSession.setAttribute("userId", userId);
             socketSession.sendMessage(new TextMessage("{\"action\": \"agree\"}"));
+            //登录成功,扫码登录完成 socket可以关掉了
+            socketSession.close();
         } else {
             socketSession.sendMessage(new TextMessage("{\"action\": \"refuse\"}"));
         }
@@ -113,14 +113,15 @@ public class UserController {
 //			User user = userService.findById(userId);
 //			model.addObject("user", user);
         if (request.getHeader("user-agent").contains("Mobile")) {
-
-            model.setViewName("/lesson/lesson");
+            model.setViewName("/user/mobile_finish.html");
         } else {
-            model.setViewName("/user/m_home");
+//            model.setViewName("/user/pc_home");
+            model.setViewName("redirect:https://www.baidu.com/");
         }
 //		}
         return model;
     }
+
 
 
 

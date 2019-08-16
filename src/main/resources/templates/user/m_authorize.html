@@ -46,15 +46,33 @@
                         // alert("手机端跳去的页面")
                         // 手机端跳去的页面
                         // if (response.success) {
-                        win.location.href = `/user/home`;
+                        // win.location.href = `/user/home`;
+                    finish();
+
+
+
                         // } else {
                         // 	alert(ERR[response.code]);
                         // }
                     // }
                 };
                 xhr.send(`agree=${this.dataset.agree}`);
+                w
             });
     });
     })(window, document);
+    var finish=function () {
+        var browser = navigator.userAgent.toLowerCase();
+        //微信扫码登录
+        if(browser.match(/MicroMessenger/i)=="micromessenger") {
+            // alert("微信客户端");
+            alert("操作完成,页面即将关闭");
+            WeixinJSBridge.call('closeWindow');
+        }else {
+            alert("操作完成,请关闭页面")
+            window.location.href="about:blank"
+            window.close();
+        }
+    }
 </script>
 </html>
