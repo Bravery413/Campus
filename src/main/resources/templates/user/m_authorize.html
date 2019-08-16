@@ -26,51 +26,46 @@
 <script type="text/javascript" th:src="@{/js/errorCode.js}"></script>
 <script th:inline="javascript">
     (function (win, doc) {
-        // const host=location.host;
-        // alert(host);
-        const ctx = /*[[@{/}]]*/;
         const xhr = new XMLHttpRequest();
         doc.querySelectorAll('.ctrl button').forEach(button => {
             button.addEventListener('click', function () {
-                //手机端扫码发送的请求
-                // const url=host+'/user/qrlogin/authorize';
-                // alert(url);
-                xhr.open('post', "/user/qrlogin/authorize", true);
-                xhr.responseType = "json";
-                xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
-                // alert("手机端准备发送请求");
-                xhr.onload = function () {
-                    // alert("手机端发送请求完毕");
-                    // if (this.status === 200 || this.status === 302) {
-                        const response = this.response;
-                        // alert("手机端跳去的页面")
-                        // 手机端跳去的页面
-                        // if (response.success) {
-                        // win.location.href = `/user/home`;
-                    finish();
+                    //手机端扫码发送的请求
+                    xhr.open('post', "/user/qrlogin/authorize", true);
+                    xhr.responseType = "json";
+                    xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+                    // alert("手机端准备发送请求");
+                    xhr.onload = function () {
+                        // alert("手机端发送请求完毕");
+                        if (this.status === 200 || this.status === 302) {
+                            alert(111)
+                            const response = this.response;
+                            alert(response.success)
+                            if (response.success) {
 
-
-
-                        // } else {
-                        // 	alert(ERR[response.code]);
-                        // }
-                    // }
-                };
-                xhr.send(`agree=${this.dataset.agree}`);
-                w
-            });
-    });
+                                // alert("手机端跳去的页面")
+                                // 手机端跳去的页面
+                                // win.location.href = `/user/home`;
+                                finish();
+                            } else {
+                                alert(ERR[response.code]);
+                            }
+                        }
+                    }
+                    xhr.send(`agree=${this.dataset.agree}`);
+                }
+            );
+        });
     })(window, document);
-    var finish=function () {
+    var finish = function () {
         var browser = navigator.userAgent.toLowerCase();
         //微信扫码登录
-        if(browser.match(/MicroMessenger/i)=="micromessenger") {
+        if (browser.match(/MicroMessenger/i) == "micromessenger") {
             // alert("微信客户端");
             alert("操作完成,页面即将关闭");
             WeixinJSBridge.call('closeWindow');
-        }else {
+        } else {
             alert("操作完成,请关闭页面")
-            window.location.href="about:blank"
+            window.location.href = "about:blank"
             window.close();
         }
     }

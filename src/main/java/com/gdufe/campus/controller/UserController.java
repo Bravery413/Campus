@@ -69,34 +69,16 @@ public class UserController {
     public Map<String, Object> authorize(boolean agree, HttpServletRequest request,
                                          HttpSession session) throws IOException {
         Map<String, Object> res = new HashMap<>();
-//		Integer userId = (Integer) request.getSession().getAttribute("userId");
-//		if (userId != null) {
-        res.put("success", true);
         String sessionId = (String) request.getSession().getAttribute("sessionId");
         WebSocketSession socketSession = QRCodeLoginHandler.getSession(sessionId);
         if (agree) {
-//            HttpSession httpSession = (HttpSession) socketSession.getAttributes().get("httpSession");
-//            httpSession.setAttribute("userId", userId);
             socketSession.sendMessage(new TextMessage("{\"action\": \"agree\"}"));
             //登录成功,扫码登录完成 socket可以关掉了
             socketSession.close();
         } else {
             socketSession.sendMessage(new TextMessage("{\"action\": \"refuse\"}"));
         }
-//        request.getSession().removeAttribute("sessionId");
-
-        //session已经关掉了
-//        socketSession.close();
-
-//		} else {
-//			res.put("success", false);
-//			res.put("code", "1002");
-//		}
-
-        //这里只是返回数据给手机端
-        //手机端根据情况再发送请求页面
-        UserDTO user = userService.findUserById(2L);
-        LoginSessonUtil.setloginUser(user,session);
+        res.put("success", true);
         return res;
     }
 
