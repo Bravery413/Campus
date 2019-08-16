@@ -57,8 +57,6 @@ public class UserController {
     @GetMapping("/qrlogin/authorize")
     public ModelAndView qrcodeLogin(@RequestParam String sid, HttpServletRequest request) throws IOException {
         ModelAndView model = new ModelAndView("/user/m_authorize");
-        String sessionId = (String)request.getSession().getAttribute("sessionId");
-        if (sessionId!=null)
         request.getSession().setAttribute("sessionId", sid);
         WebSocketSession socketSession = QRCodeLoginHandler.getSession(sid);
         socketSession.sendMessage(new TextMessage("{\"action\": \"scanCode\"}"));
@@ -115,8 +113,9 @@ public class UserController {
         if (request.getHeader("user-agent").contains("Mobile")) {
             model.setViewName("/user/mobile_finish.html");
         } else {
-//            model.setViewName("/user/pc_home");
-            model.setViewName("redirect:https://www.baidu.com/");
+            model.setViewName("/user/pc_home");
+            //以后电脑重定向到的地方
+//            model.setViewName("redirect:https://www.baidu.com/");
         }
 //		}
         return model;
