@@ -86,9 +86,9 @@
 
 </form>
 <!--扫描成功显示元素-->
-<div id="message" style="width: 150px">
-    <img>
-    <div style="color: #FFFFF4;font-size: 15px;"></div>
+<div id="message" style="width: 200px; display: flex;flex-direction: column;margin-bottom: 120px">
+    <img style="justify-content: center">
+    <div style="color: #FFFFF4;font-size: 15px;justify-content: center;margin-top: 10px"></div>
 </div>
 </body>
 
@@ -195,7 +195,7 @@
    // 扫码成功js
     var success = function () {
         $("form").hide();
-        document.querySelector('#message>img').src = `${ctx}images/success.png`;
+        document.querySelector('#message>img').src = `${ctx}images/success4.png`;
         $("#message").show();
         document.querySelector('#message>div').innerHTML = '请在手机确认完成登录';
     }
@@ -203,7 +203,7 @@
    // 扫码拒绝js
     var reject = function () {
         $("form").hide();
-        document.querySelector('#message>img').src = `${ctx}images/refuse2.png`;
+        document.querySelector('#message>img').src = `${ctx}images/cry.png`;
         document.querySelector('#message>div').innerHTML = "你被无情地拒绝了<br>5秒后返回页面";
         $("#message").show();
         back();
