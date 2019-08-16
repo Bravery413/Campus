@@ -9,6 +9,7 @@ import com.gdufe.campus.pojo.VO.UserVO;
 import com.gdufe.campus.service.UserService;
 import com.gdufe.campus.utils.LoginSessonUtil;
 import com.gdufe.campus.utils.ResultVOUtil;
+import com.gdufe.campus.utils.StringUtils;
 import com.gdufe.campus.websocket.handler.QRCodeLoginHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.manager.util.SessionUtils;
@@ -58,6 +59,8 @@ public class UserController {
     @GetMapping("/qrlogin/authorize")
     public ModelAndView qrcodeLogin(@RequestParam String sid, HttpServletRequest request) throws IOException {
         ModelAndView model = new ModelAndView("/user/m_authorize");
+        String sessionId = (String)request.getSession().getAttribute("sessionId");
+        if (sessionId!=null)
         request.getSession().setAttribute("sessionId", sid);
         WebSocketSession socketSession = QRCodeLoginHandler.getSession(sid);
         socketSession.sendMessage(new TextMessage("{\"action\": \"scanCode\"}"));
@@ -83,7 +86,10 @@ public class UserController {
             socketSession.sendMessage(new TextMessage("{\"action\": \"refuse\"}"));
         }
 //        request.getSession().removeAttribute("sessionId");
-        socketSession.close();
+
+        //session已经关掉了
+//        socketSession.close();
+
 //		} else {
 //			res.put("success", false);
 //			res.put("code", "1002");
