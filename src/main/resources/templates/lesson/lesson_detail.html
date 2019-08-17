@@ -44,7 +44,7 @@
             <div id="div1">
                 <div class="form-group">
                     <label class="text-info">位置</label>
-                    <div class="form-control">{{data[0].place}}</div>
+                    <div class="form-control">{{data.place}}</div>
                 </div>
                 <div class="form-group">
                     <label class="text-info">微信&nbsp&nbsp <span style="color: red">(请双击复制添加好友)</span></label>
@@ -52,15 +52,15 @@
                 </div>
                 <div class="form-group">
                     <label class="text-info">时间</label>
-                    <div class="form-control">{{data[0].time}}</div>
+                    <div class="form-control">{{data.time}}</div>
                 </div>
                 <div class="form-group">
                     <label class="text-info">价格</label>
-                    <div class="form-control">{{data[0].price}}</div>
+                    <div class="form-control">{{data.price}}</div>
                 </div>
                 <div class="form-group">
                     <label class="text-info">备注</label>
-                    <textarea name="info" style="height: 120px" id="info" class="form-control">{{data[0].info}}</textarea>
+                    <textarea name="info" style="height: 120px" id="info" class="form-control">{{data.info}}</textarea>
                 </div>
                 <a href="#" style="margin-left: 30%" @click="setFocus()" class="btn btn-success">请联系微信接单</a>
             </div>
@@ -112,15 +112,14 @@
             detail:function () {
                 var self=this;
                 var lid=GetUrlParam('lid');
-                this.$http.post(
-                        '/lesson/list',
-                        {
-                            'lid':lid,
+                var url='/lesson/detail?lid='+lid;
+                this.$http.post(url, {
                         }).then(function (res){
                     var res=res.data;
+                    console.log(res);
                     if(res.code==1000){
                         self.data=res.data;
-                        self.wechat=res.data[0].wechat;
+                        self.wechat=res.data.wechat;
 
                     }
                 },function(err){

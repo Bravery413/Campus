@@ -68,7 +68,7 @@
                         <td>{{d.price}}</td>
                         <td>{{d.time}}</td>
                         <td>
-                            <a v-if="d.isTake==0" class="btn btn-info" th:href="'/lesson/detailPage' + '?lid=' + d.id">详情</a>
+                            <a v-if="d.isTake==0" class="btn btn-info" :href="'/lesson/detailPage' + '?lid='+d.id">详情</a>
                             <img v-if="d.isTake==1" style="height: 50px;width: 50px" th:src="@{/images/isTake.png}">
                         </td>
                     </tr>

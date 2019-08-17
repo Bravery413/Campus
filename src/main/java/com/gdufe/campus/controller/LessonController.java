@@ -59,6 +59,22 @@ public class LessonController {
     }
 
     @ResponseBody
+    @PostMapping("/detail")
+    public ResultVO lessonDetail(@RequestParam Long lid) {
+        if (lid==null){
+            lid=1L;
+        }
+        LessonDTO lesson = lessonService.findById(lid);
+        LessonVO lessonVO = new LessonVO();
+        BeanUtils.copyProperties(lesson,lessonVO);
+        return ResultVOUtil.success(lessonVO);
+    }
+
+
+
+
+
+    @ResponseBody
     @PostMapping("/listSelf")
     public ResultVO listSelf(HttpSession session) {
         UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
