@@ -7,6 +7,7 @@ import com.gdufe.campus.pojo.VO.LessonVO;
 import com.gdufe.campus.pojo.VO.ResultVO;
 import com.gdufe.campus.service.Impl.LessonServiceImpl;
 import com.gdufe.campus.utils.LoginSessonUtil;
+import com.gdufe.campus.utils.MyCaptchaUtil;
 import com.gdufe.campus.utils.ResultVOUtil;
 import com.wf.captcha.utils.CaptchaUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -71,9 +72,6 @@ public class LessonController {
     }
 
 
-
-
-
     @ResponseBody
     @PostMapping("/listSelf")
     public ResultVO listSelf(HttpSession session) {
@@ -82,16 +80,14 @@ public class LessonController {
         List<LessonDTO> lessonDTOS = lessonService.findByUser(uid);
         return ResultVOUtil.success(lessonDTOS);
     }
-    //TODO 去接到前端
+
     @ResponseBody
     @PostMapping("/add")
     public ResultVO add(@RequestBody LessonVO lessonVO, HttpServletRequest request,
                         HttpSession session) {
-
-
-        if (!CaptchaUtil.ver(lessonVO.getCode(), request)) {
-            CaptchaUtil.clear(request);
-            return ResultVOUtil.error(ResultEnum.CODE_ERROR.getCode(),ResultEnum.CODE_ERROR.getMessage());
+        Boolean result = MyCaptchaUtil.check(lessonVO.getCode(), request);
+        if (!result){
+            return ResultVOUtil.error(ResultEnum.CODE_ERROR);
         }
         LessonDTO lessonDTO = new LessonDTO();
         BeanUtils.copyProperties(lessonVO,lessonDTO);
@@ -107,10 +103,14 @@ public class LessonController {
 
     }
 
-    //update
+
     @ResponseBody
     @PostMapping("/update")
-    public ResultVO update(LessonVO lessonVO) {
+    public ResultVO update(@RequestBody LessonVO lessonVO,HttpServletRequest request) {
+        Boolean result = MyCaptchaUtil.check(lessonVO.getCode(), request);
+        if (!result){
+            return ResultVOUtil.error(ResultEnum.CODE_ERROR);
+        }
         LessonDTO lessonDTO = new LessonDTO();
         BeanUtils.copyProperties(lessonVO,lessonDTO);
         Integer update= lessonService.UpdateLesson(lessonDTO);
