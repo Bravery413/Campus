@@ -26,9 +26,7 @@
 </body>
 
 </html>
-<!--<script type="text/javascript" th:src="@{/js/errorCode.js}"></script>-->
-
-
+<!--传递运行/拒绝-->
 <script>
     new Vue({
         el: "#app1",
@@ -49,24 +47,23 @@
                     if (data.code == 1000) {
                         finish();
                     } else {
-                       alert(data.msg)
+                        alert(data.msg)
                     }
                 })
             },
         }
     })
-
-
 </script>
-
+<!--操作完成,关闭窗口-->
 <script>
     var finish = function () {
         var browser = navigator.userAgent.toLowerCase();
-//微信扫码登录
+        //微信扫码登录
         if (browser.match(/MicroMessenger/i) == "micromessenger") {
-// alert("微信客户端");
-//             alert("操作完成,页面即将关闭");
+            // alert("微信客户端");
+            //alert("操作完成,页面即将关闭");
             WeixinJSBridge.call('closeWindow');
+            //其他扫码登录
         } else {
             alert("操作完成,请关闭页面")
             window.location.href = "about:blank"

@@ -28,4 +28,10 @@ public class ResultVOUtil {
         resultVO.setMsg(msg);
         return resultVO;
     }
+    public static ResultVO error(ResultEnum resultEnum) {
+        ResultVO resultVO = new ResultVO();
+        resultVO.setCode(resultEnum.getCode());
+        resultVO.setMsg(resultEnum.getMessage());
+        return resultVO;
+    }
 }

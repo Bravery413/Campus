@@ -10,6 +10,7 @@ public enum ResultEnum {
     PARAM_EMPTY(2, "参数为空"),
     EMAIL_ERROR(3, "注册邮件发送失败"),
     CODE_ERROR(4, "验证码错误"),
+    ACCOUNT_EXIST(5, "用户名已存在"),
 
     ADD_FAILED(6, "新增失败"),
     UPDATE_FAILED(7, "更新失败"),
