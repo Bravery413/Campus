@@ -69,6 +69,9 @@ public class UserController {
         WebSocketSession socketSession = QRCodeLoginHandler.getSession(sessionId);
         if (mobilePassVO.getAgree()) {
             socketSession.sendMessage(new TextMessage("{\"action\": \"agree\"}"));
+            //同意 创建电脑端登录状态
+            UserDTO user = userService.findUserById(1L);
+            request.getSession().setAttribute("loginUser", user);
             //登录成功,扫码登录完成 socket可以关掉了
             socketSession.close();
         } else {

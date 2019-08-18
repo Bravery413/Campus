@@ -3,15 +3,32 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-
 	</head>
 	<body>
-<h2>pc_home page</h2>
+	<div id="message" style="margin: 0 auto">
+		<div style="color: black;font-size: 20px;font-weight: bold; justify-content: center;margin-top: 10px">
+			Bravery网站主页
+			<br>
+			完善ing
+			<br>
+			5秒后返回登录页面
+		</div>
+	</div>
 	</body>
 
 </html>
 <script>
-	//这样也挺好的,不停地完,过后要去新的页面
-	window.history.back();
+	// 这样也挺好的,不停地完,过后要去新的页面
 	window.close();
+	window.onload= function(){
+		var time = 5 ;
+		var timer = setInterval(function(){
+			time-- ;
+			document.querySelector('#message>div').innerHTML = "Bravery网站主页<br>完善ing<br>" + time + "秒后返回页面";
+			if(time == 0){
+				clearInterval(timer);
+				window.history.back();
+			}
+		}, 1000);
+	}
 </script>
