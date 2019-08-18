@@ -47,6 +47,7 @@
             <!--二维码-->
             <div class="pc_qr_code">
                 <div id="qrcode"></div>
+                <div id="qrmsg"></div>
             </div>
             <div style="color: #FFFFF4;font-size: 15px;" id="result">推荐使用微信扫码</div>
         </div>
@@ -79,6 +80,7 @@
     <img style="justify-content: center">
     <div style="color: #FFFFF4;font-size: 15px;justify-content: center;margin-top: 10px"></div>
 </div>
+
 </body>
 
 <!--二维码js-->
@@ -86,12 +88,15 @@
     const ctx = /*[[@{/}]]*/;
     let socket = null;
     let warpper = document.querySelector('.warpper');
+    $('#qrmsg').html('<div style="font-weight: bold;font-size: 15px">Websocket连接建立中</div>')
     window.onload = function () {
         $("#message").hide();
         //websocket用在这里 手机端扫码后返回状态 前端js做出响应
         // alert("websocket用在这里 手机端扫码后返回状态 前端js做出响应")
         socket = new WebSocket(`ws://${window.location.host}/websocket/login`);
+        $('#qrmsg').html('<div style="font-weight: bold;font-size: 15px">WebSocket发送成功!</div>');
         socket.onmessage = function (e) {
+            $('#qrmsg').html('<div style="font-weight: bold;font-size: 15px">连接成功!生成二维码ing</div>');
             const data = JSON.parse(e.data);
             console.log(data)
             switch (data.action) {
