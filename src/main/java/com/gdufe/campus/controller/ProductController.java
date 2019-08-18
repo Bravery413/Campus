@@ -45,17 +45,17 @@ public class ProductController {
 
     @GetMapping("/listPage")
     public String listPage() {
-        return "/product/product_list";
+        return "product/product_list";
     }
 
     @GetMapping("/addPage")
     public String addPage() {
-        return "/product/product_add";
+        return "product/product_add";
     }
 
     @GetMapping("/detailPage")
     public String detailPage() {
-        return "/product/product_detail";
+        return "product/product_detail";
     }
 
     @ResponseBody

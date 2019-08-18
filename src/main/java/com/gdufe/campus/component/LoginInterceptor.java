@@ -18,7 +18,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         //查询session,如果有则放行,没有则跳到登录页面
         UserDTO user = (UserDTO)request.getSession().getAttribute(USER_SESSON);
         if (user==null||user.getId()==null)  {
-            response.sendRedirect("/user/login");
+            response.sendRedirect("/user/loginPage");
             return false;
         }
         return true;

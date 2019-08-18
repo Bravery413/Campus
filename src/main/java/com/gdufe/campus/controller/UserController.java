@@ -11,7 +11,6 @@ import com.gdufe.campus.service.UserService;
 import com.gdufe.campus.utils.ResultVOUtil;
 import com.gdufe.campus.utils.StringUtils;
 import com.gdufe.campus.websocket.handler.QRCodeLoginHandler;
-import com.sun.org.apache.regexp.internal.RE;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.BeanUtils;
@@ -41,9 +40,9 @@ public class UserController {
     public ModelAndView loginPage(HttpServletRequest request) {
         ModelAndView model = new ModelAndView();
         if (request.getHeader("user-agent").contains("Mobile")){
-            model.setViewName("/user/mobile_login");
+            model.setViewName("user/mobile_login");
         }else {
-            model.setViewName("/user/scanLogin");
+            model.setViewName("user/scanLogin");
         }
         return model;
     }
@@ -55,7 +54,7 @@ public class UserController {
      */
     @GetMapping("/qrlogin/authorize")
     public ModelAndView qrcodeLogin(@RequestParam String sid, HttpServletRequest request) throws IOException {
-        ModelAndView model = new ModelAndView("/user/m_authorize");
+        ModelAndView model = new ModelAndView("user/m_authorize");
         request.getSession().setAttribute("sessionId", sid);
         WebSocketSession socketSession = QRCodeLoginHandler.getSession(sid);
         socketSession.sendMessage(new TextMessage("{\"action\": \"scanCode\"}"));
@@ -89,9 +88,9 @@ public class UserController {
 //			User user = userService.findById(userId);
 //			model.addObject("user", user);
         if (request.getHeader("user-agent").contains("Mobile")) {
-            model.setViewName("/user/mobile_finish.html");
+            model.setViewName("user/mobile_finish.html");
         } else {
-            model.setViewName("/user/pc_home");
+            model.setViewName("user/pc_home");
             //以后电脑重定向到的地方
 //            model.setViewName("redirect:https://www.baidu.com/");
         }
@@ -147,7 +146,7 @@ public class UserController {
     @GetMapping("/registerPage")
     public ModelAndView registerPage(HttpServletRequest request) {
         ModelAndView model = new ModelAndView();
-        model.setViewName("/user/register");
+        model.setViewName("user/register");
         return model;
     }
 
