@@ -35,6 +35,7 @@ public class CaptchaController {
         gifCaptcha.out(response.getOutputStream());
         //简写
 //        CaptchaUtil.out(request, response);
+
     }
 
 
