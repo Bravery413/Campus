@@ -30,7 +30,7 @@
 
         body {
             font-family: "华文细黑";
-            background: url("http://127.0.0.1/images/backgroud.jpg") no-repeat;
+            background: url("https://bravery-1258739678.cos.ap-guangzhou.myqcloud.com/icon/backgroud.jpg") no-repeat;
             /*background-color: black;*/
             /*opacity:0.5;*/
             background-size: 100%;
@@ -125,6 +125,7 @@
                     break;
                 case 'agree':
                     // 客户端同意登录
+                    alert("扫码登录成功!体验结束.")
                     window.location.href = `${ctx}user/home`;
                     break;
                 case 'refuse':
