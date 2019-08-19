@@ -73,6 +73,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO findByAccount(String account) {
+        UserDO userDO = userMapper.findByAccount(account);
+        if (userDO==null){
+            log.error("[查询账号] account查询账户为空");
+            throw new BusinessException(ResultEnum.PARAM_EMPTY);
+        }
+        UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(userDO,userDTO);
+        return userDTO;
+    }
+
+    @Override
+    public Boolean active(String account, String key) {
+        return null;
+    }
+
+    @Override
     public int save(UserDTO userDTO) {
         if (userDTO==null){
             log.error("[注册账号] 账户为空");

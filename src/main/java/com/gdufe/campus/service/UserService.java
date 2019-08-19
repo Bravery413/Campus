@@ -15,6 +15,10 @@ public interface UserService {
 
     UserDTO findUserById(Long id);
 
+    UserDTO findByAccount(String account);
+
+    Boolean active(String account,String key);
+
     boolean checkAccount(String account);
 
     int save(UserDTO userDTO);
