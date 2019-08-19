@@ -63,6 +63,10 @@ public class UserController {
         return model;
     }
 
+    /**
+     *手机端请求
+     * 确定同意或者拒绝
+     */
     @ResponseBody
     @PostMapping("/qrlogin/authorize")
     public ResultVO authorize(@RequestBody MobilePassVO mobilePassVO, HttpServletRequest request) throws IOException {
@@ -81,7 +85,10 @@ public class UserController {
         return ResultVOUtil.success();
     }
 
-
+    /**
+     *完成操作后
+     * 手机/PC分别的操作
+     */
     @GetMapping("/home")
     public ModelAndView homePage(HttpServletRequest request,HttpSession session) {
         ModelAndView model = new ModelAndView();
