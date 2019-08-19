@@ -78,6 +78,7 @@ public class UserServiceImpl implements UserService {
         UserDO userDO = new UserDO();
         BeanUtils.copyProperties(userDTO,userDO);
         //TODO 密码MD5盐值加密
+        //TODO 邮箱注册
         return userMapper.save(userDO);
     }
 }

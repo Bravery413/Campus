@@ -7,6 +7,7 @@ import com.gdufe.campus.pojo.DTO.UserDTO;
 import com.gdufe.campus.pojo.VO.MobilePassVO;
 import com.gdufe.campus.pojo.VO.ResultVO;
 import com.gdufe.campus.pojo.VO.UserVO;
+import com.gdufe.campus.service.Impl.UserServiceImpl;
 import com.gdufe.campus.service.UserService;
 import com.gdufe.campus.utils.ResultVOUtil;
 import com.gdufe.campus.utils.StringUtils;
@@ -32,7 +33,7 @@ import java.util.Map;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
     @Autowired
     EmailConfig emailConfig;
 

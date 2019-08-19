@@ -94,9 +94,8 @@
         //websocket用在这里 手机端扫码后返回状态 前端js做出响应
         // alert("websocket用在这里 手机端扫码后返回状态 前端js做出响应")
         socket = new WebSocket(`ws://${window.location.host}/websocket/login`);
-        $('#qrmsg').html('<div style="font-weight: bold;font-size: 15px">WebSocket发送成功!</div>');
+        $('#qrmsg').html('<div style="font-weight: bold;font-size: 15px">连接成功!生成二维码ing</div>');
         socket.onmessage = function (e) {
-            $('#qrmsg').html('<div style="font-weight: bold;font-size: 15px">连接成功!生成二维码ing</div>');
             const data = JSON.parse(e.data);
             console.log(data)
             switch (data.action) {
