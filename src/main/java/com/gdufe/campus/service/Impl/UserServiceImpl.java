@@ -5,12 +5,15 @@ import com.gdufe.campus.exception.BusinessException;
 import com.gdufe.campus.pojo.DO.UserDO;
 import com.gdufe.campus.pojo.DTO.UserDTO;
 import com.gdufe.campus.service.UserService;
+import com.gdufe.campus.utils.EmailUtil;
 import com.gdufe.campus.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.gdufe.campus.mapper.*;
+
+import java.util.UUID;
 
 /**
  * @author: Bravery
@@ -75,10 +78,13 @@ public class UserServiceImpl implements UserService {
             log.error("[注册账号] 账户为空");
             throw new BusinessException(ResultEnum.PARAM_EMPTY);
         }
+        userDTO.setActive(UUID.randomUUID().toString());
+        userDTO.setEmail("2472937751@qq.com");
         UserDO userDO = new UserDO();
         BeanUtils.copyProperties(userDTO,userDO);
+        // 邮箱注册
+        EmailUtil.sendEmail(userDTO);
         //TODO 密码MD5盐值加密
-        //TODO 邮箱注册
         return userMapper.save(userDO);
     }
 }

@@ -9,16 +9,15 @@ import org.springframework.context.annotation.Configuration;
  * @date 2019/8/12 8:15
  */
 @Configuration
-@ConfigurationProperties(prefix="email")
 @Data
 public class EmailConfig {
-    private String hostName;
+    private String hostName="smtp.126.com";
 
-    private String sendFromEmailAddress;
+    private String sendFromEmailAddress="gdufee@126.com";
 
-    private String sendFromName;
+    private String sendFromName="校园周边App";
 
-    private String emailPassword;
+    private String emailPassword="py123456";
 
-    private String emailTitle;
+    private String emailTitle="账号注册激活";
 }

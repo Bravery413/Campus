@@ -18,5 +18,6 @@ public class UserVO {
 
     private String headImg;
 
+    private String active;
 
 }
