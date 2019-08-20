@@ -26,14 +26,14 @@ public interface UserMapper {
     @Select("select * from user where account=#{account} and password=#{password}")
     UserDO login(UserDO user);
 
-    @Insert("insert into user (account,password,username,email,head_img) " +
-            "values(#{account},#{password},#{username},#{email},#{headImg})")
+    @Insert("insert into user (account,password,username,email,head_img,active) " +
+            "values(#{account},#{password},#{username},#{email},#{headImg},#{active})")
     int save(UserDO user);
 
     @Delete("delete from user where id=#{id}")
     int deleteById(int id);
 
-    @Update("update user set account=#{account},account=#{password}," +
+    @Update("update user set account=#{account},active=#{active}," +
             "password=#{password},username=#{username},email=#{email},head_img=#{headImg} " +
             "where id=#{id}")
     int update(UserDO user);

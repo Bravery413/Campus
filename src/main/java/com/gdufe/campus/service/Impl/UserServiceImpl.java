@@ -41,6 +41,10 @@ public class UserServiceImpl implements UserService {
             log.error("[用户登录] 用户账号不存在或者密码错误user={}", user);
             throw new BusinessException(ResultEnum.PASSWORD_ERROR);
         }
+        if (!"active".equals(login.getActive())){
+            log.error("[用户登录] 用户账号未激活user={}", user);
+            throw new BusinessException(ResultEnum.NO_ACTIVE);
+        }
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(login, userDTO);
         return userDTO;
@@ -86,7 +90,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean active(String account, String key) {
-        return null;
+        Boolean flag=false;
+        UserDO user = userMapper.findByAccount(account);
+        if (user==null){
+            log.error("[激活账号] 账户不存在");
+            throw new BusinessException(ResultEnum.ACCOUNT_EMPTY);
+        }else if ("active".equals(user.getActive())){
+            log.error("[激活账号] 重复激活");
+            throw new BusinessException(ResultEnum.REACTIVE);
+        }else if (key.equals(user.getActive())){
+            user.setActive("active");
+            userMapper.update(user);
+            flag=true;
+        }else {
+            log.error("[激活账号] 系统错误");
+            throw new BusinessException(ResultEnum.SYSTEM_ERROR);
+        }
+        return flag;
+
     }
 
     @Override
@@ -96,7 +117,7 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(ResultEnum.PARAM_EMPTY);
         }
         userDTO.setActive(UUID.randomUUID().toString());
-        userDTO.setEmail("2472937751@qq.com");
+//        userDTO.setEmail("2472937751@qq.com");
         UserDO userDO = new UserDO();
         BeanUtils.copyProperties(userDTO,userDO);
         // 邮箱注册

@@ -18,12 +18,9 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
                 //拦截路径
                 .addPathPatterns("/**")
                 //非拦截路径
-                .excludePathPatterns("/user/loginPage")
-                .excludePathPatterns("user/loginPage")
-                .excludePathPatterns("/user/login")
-                .excludePathPatterns("/user/qrlogin/authorize")
-                .excludePathPatterns("/user/home")
-                .excludePathPatterns("/static/**")
+                .excludePathPatterns("/user/**")
+                .excludePathPatterns("user/**")
+//                .excludePathPatterns("/static/**")
                 .excludePathPatterns("/css/**")
                 .excludePathPatterns("/js/**")
                 .excludePathPatterns("/icons/**")

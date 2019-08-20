@@ -142,7 +142,9 @@ public class UserController {
             session.setAttribute("loginUser", user);
 
         } catch (BusinessException e) {
-            map.put("msg", ResultEnum.PASSWORD_ERROR.getMessage());
+            map.put("msg", e);
+            return ResultVOUtil.error(e.getCode(),e.getMessage());
+
         }
         return ResultVOUtil.success();
     }
@@ -200,7 +202,12 @@ public class UserController {
     @GetMapping("/active")
     public ModelAndView active(@RequestParam String account,@RequestParam String key) {
         ModelAndView modelAndView = new ModelAndView();
-        userService.active(account,key);
+        try{
+            userService.active(account,key);
+        }catch (BusinessException e){
+            modelAndView.setViewName("user/loginPage");
+            return modelAndView;
+        }
         modelAndView.setViewName("user/active");
         return modelAndView;
     }

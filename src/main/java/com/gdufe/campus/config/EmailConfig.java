@@ -20,4 +20,6 @@ public class EmailConfig {
     private String emailPassword="py123456";
 
     private String emailTitle="账号注册激活";
+
+    private String emailHost="http://192.168.10.83";
 }

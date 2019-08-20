@@ -18,7 +18,7 @@ import java.util.UUID;
  */
 @Slf4j
 public class EmailUtil {
-    private static EmailConfig emailConfig;
+    private static EmailConfig emailConfig=new EmailConfig();
     public static void sendEmail(UserDTO userDTO) {
         try {
             String name=userDTO.getUsername();

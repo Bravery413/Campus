@@ -106,7 +106,7 @@
                 }).then(function (response) {
                     var res = response.data;
                     if (res.code == 1000) {
-                        alert("注册成功!现在去登录吧.");
+                        alert("注册成功,请先去邮箱激活账号!");
                         window.location.href = "/user/loginPage";
                     } else if(res.code==5) {
                         var m ='账号已存在';
