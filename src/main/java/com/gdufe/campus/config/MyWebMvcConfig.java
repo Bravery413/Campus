@@ -20,7 +20,7 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
                 //非拦截路径
                 .excludePathPatterns("/user/**")
                 .excludePathPatterns("user/**")
-//                .excludePathPatterns("/static/**")
+                .excludePathPatterns("/captcha/**")
                 .excludePathPatterns("/css/**")
                 .excludePathPatterns("/js/**")
                 .excludePathPatterns("/icons/**")

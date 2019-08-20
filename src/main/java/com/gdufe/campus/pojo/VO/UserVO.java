@@ -20,4 +20,6 @@ public class UserVO {
 
     private String active;
 
+    private String code;
+
 }

@@ -97,11 +97,6 @@
                     <input style=" display:inline-block; width: 120px;" id="ccode" name="ccode" v-model="code"
                            type="text" class="form-control" placeholder="">
                     <img id="codeImg" v-model="code" style="margin-left: 10%" src="/captcha/image">
-                    <!--<input type="hidden" name="randomID" value="${randomID}" id="hiddenCode"/>-->
-                    <!--<img id="codeImg" style="margin-left: 10%" :src="'/captcha?randomID='+randomID"><input type="hidden"-->
-                    <!--name="randomID"-->
-                    <!--value="${randomID}"-->
-                    <!--id="hiddenCode"/>-->
                     <button @click="save()" style="margin-left: 40%" type="button" class="btn btn-primary">发布</button>
             </form>
         </main>
