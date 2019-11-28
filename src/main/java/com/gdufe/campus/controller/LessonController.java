@@ -29,6 +29,12 @@ public class LessonController {
     @Autowired
     private LessonServiceImpl lessonService;
 
+
+    @GetMapping("/testPage")
+    public String testPage() {
+        return "lesson/modalDialog";
+    }
+
     @GetMapping("/listPage")
     public String listPage() {
         return "lesson/lesson";

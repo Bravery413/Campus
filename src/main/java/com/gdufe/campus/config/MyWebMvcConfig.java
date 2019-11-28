@@ -14,18 +14,18 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         System.out.println("配置类启动");
-        registry.addInterceptor(new LoginInterceptor())
+//        registry.addInterceptor(new LoginInterceptor())
                 //拦截路径
-                .addPathPatterns("/**")
+//                .addPathPatterns("/**")
                 //非拦截路径
-                .excludePathPatterns("/user/login")
-                .excludePathPatterns("/user/qrlogin/authorize")
-                .excludePathPatterns("/user/home")
-                .excludePathPatterns("/static/**")
-                .excludePathPatterns("/css/**")
-                .excludePathPatterns("/js/**")
-                .excludePathPatterns("/icons/**")
-                .excludePathPatterns("/images/**");
+//                .excludePathPatterns("/user/login")
+//                .excludePathPatterns("/user/qrlogin/authorize")
+//                .excludePathPatterns("/user/home")
+//                .excludePathPatterns("/static/**")
+//                .excludePathPatterns("/css/**")
+//                .excludePathPatterns("/js/**")
+//                .excludePathPatterns("/icons/**")
+//                .excludePathPatterns("/images/**");
     }
 
 }
