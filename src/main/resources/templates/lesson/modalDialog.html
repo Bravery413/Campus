@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" style="height:100%;font-size:14px;">
+
+<head>
+    <meta name="spreadjs culture" content="zh-cn"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <div th:replace="commons/head::head"></div>
+    <script src="http://cdn.grapecity.com/spreadjs/hosted/scripts/resources/zh/gc.spread.sheets.resources.zh.12.0.6.min.js" type="text/javascript"></script>
+    <script src = "http://cdn.grapecity.com/spreadjs/hosted/scripts/gc.spread.sheets.all.12.0.6.min.js" type = "text/javascript" ></script>
+    <style>* {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+
+    .sample-tutorial {
+        position: relative;
+        height: 100%;
+        overflow: hidden;
+    }</style>
+</head>
+
+<body style="margin:0;position:absolute;top:0;bottom:0;left:0;right:0;font-size:14px;user-select:none;-webkit-user-select: none;overflow:hidden;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'">
+<div id="div1">
+    <div class="sample-tutorial">
+        <div id="ss" style="width:100%;height:100%"></div>
+    </div>
+
+    <div class="modal fade" id="subEditor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         gcUIElement="gcEditingInput">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label class="control-label">Recipient:</label>
+                            <div v-for="(item,index) in obj" key="index">
+                                <label @click="print02(item.place)"><input name="place"  id="recipient-name" type="radio" > {{item.place}}</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="setValue">Set Value</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var spread = new GC.Spread.Sheets.Workbook(document.getElementById('ss'), {
+            sheetCount: 1
+        });
+        // get spread object
+        // var spread = GcSpread.Sheets.findControl(document.getElementById('ss'));
+        var activeSheet = spread.getActiveSheet()
+        activeSheet.setRowCount(10);
+        activeSheet.setColumnCount(10)
+        var unLockedStyle = new GC.Spread.Sheets.Style();
+        unLockedStyle.backColor = "lightgreen";
+        activeSheet.setStyle(3, 3, unLockedStyle);
+        activeSheet.setTag(3, 3, {
+            isSubEditor: true
+        })
+        activeSheet.setColumnWidth(2, 100)
+        activeSheet.setColumnWidth(3, 100)
+        activeSheet.setValue(3, 2, "Double Click  ->");
+        activeSheet.setValue(3, 3, "Grape City");
+
+        activeSheet.bind(GC.Spread.Sheets.Events.EditStarting, function (sender, args) {
+            var sheet = args.sheet;
+            var cell = sheet.getCell(args.row, args.col);
+            if (cell.tag() && cell.tag().isSubEditor) {
+                console.log("show");
+                $('#recipient-name').val(cell.value());
+                $('#subEditor').modal('show')
+                setTimeout(function () {
+                    $('#recipient-name')[0].focus();
+                }, 100);
+            }
+
+        });
+
+        $("#setValue").click(function () {
+            var cell = activeSheet.getCell(activeSheet.getActiveRowIndex(), activeSheet.getActiveColumnIndex());
+            activeSheet.endEdit();
+            // cell.value($('#recipient-name').val());
+            $('#subEditor').modal('hide')
+
+        })
+    });
+</script>
+
+<script>
+    var app = new Vue({
+        el: '#div1',
+        data: {
+            obj: [],
+            spread:{}
+
+
+        },
+        created: function () {
+            this.getData();
+        },
+        methods: {
+            getData: function () {
+
+                var spread = new GC.Spread.Sheets.Workbook(document.getElementById('ss'), {
+                    sheetCount: 1
+                });
+                // get spread object
+                // var spread = GcSpread.Sheets.findControl(document.getElementById('ss'));
+                var activeSheet = spread.getActiveSheet()
+                activeSheet.setRowCount(10);
+                activeSheet.setColumnCount(10)
+                var unLockedStyle = new GC.Spread.Sheets.Style();
+                unLockedStyle.backColor = "lightgreen";
+                activeSheet.setStyle(3, 3, unLockedStyle);
+                activeSheet.setTag(3, 3, {
+                    isSubEditor: true
+                })
+                activeSheet.setColumnWidth(2, 100)
+                activeSheet.setColumnWidth(3, 100)
+                activeSheet.setValue(3, 2, "Double Click  ->");
+                activeSheet.setValue(3, 3, "Grape City");
+
+
+
+
+
+
+
+
+
+
+
+
+
+                // alert(111)
+                this.$http.post("/lesson/list", {}).then(function (response) {
+                    var res = response.data;
+                    let self = this;
+                    if (res.code == 1000) {
+                        let list = res.data;
+                        self.obj= []
+                        if(list && list.length > 0 ){
+                            list.forEach(item =>{
+                                let obj = {}
+                                obj.place = item.place
+                                self.obj.push(obj)
+                            })
+
+                        }
+
+                        console.log(this.obj);
+                    }
+                })
+            },
+            // print02:function(event) {
+            //     alert(event);
+            // }
+        }
+    })
+</script>
+</body>
+
+</html>
