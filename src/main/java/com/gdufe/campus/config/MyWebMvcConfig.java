@@ -24,6 +24,8 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/css/**")
                 .excludePathPatterns("/js/**")
                 .excludePathPatterns("/icons/**")
+                .excludePathPatterns("/date")
+                .excludePathPatterns("/sort")
                 .excludePathPatterns("/images/**");
     }
 
