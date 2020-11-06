@@ -2,7 +2,9 @@ package com.gdufe.campus.exception;
 
 
 import com.gdufe.campus.enums.ResultEnum;
+import lombok.Data;
 
+@Data
 public class BusinessException extends RuntimeException {
     private Integer code;
 

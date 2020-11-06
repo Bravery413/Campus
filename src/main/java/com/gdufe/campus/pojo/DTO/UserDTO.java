@@ -17,5 +17,8 @@ public class UserDTO {
 
     private String headImg;
 
+    private String active;
+
+
 
 }

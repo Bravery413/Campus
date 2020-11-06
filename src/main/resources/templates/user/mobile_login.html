@@ -72,12 +72,13 @@
                     'password': self.password
                 }).then(function (response) {
                     var res = response.data;
+                    console.log(res)
                     if (res.code == 1000) {
                         window.location.href = "/lesson/listPage";
                     } else if (res.code == 800001) {
                         alert('账号不存在或密码错误');
-                    } else if (res.code == 200005) {
-                        alert('账号被禁用,请联系管理员', 2000);
+                    } else if (res.code == 11) {
+                        alert('账号未激活,请登录邮箱激活', 2000);
                     } else {
                         alert('登录失败.' + res.msg, 2000);
                     }

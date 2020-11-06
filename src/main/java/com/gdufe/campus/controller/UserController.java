@@ -3,11 +3,14 @@ package com.gdufe.campus.controller;
 import com.gdufe.campus.config.EmailConfig;
 import com.gdufe.campus.enums.ResultEnum;
 import com.gdufe.campus.exception.BusinessException;
+import com.gdufe.campus.mapper.UserMapper;
 import com.gdufe.campus.pojo.DTO.UserDTO;
 import com.gdufe.campus.pojo.VO.MobilePassVO;
 import com.gdufe.campus.pojo.VO.ResultVO;
 import com.gdufe.campus.pojo.VO.UserVO;
+import com.gdufe.campus.service.Impl.UserServiceImpl;
 import com.gdufe.campus.service.UserService;
+import com.gdufe.campus.utils.MyCaptchaUtil;
 import com.gdufe.campus.utils.ResultVOUtil;
 import com.gdufe.campus.utils.StringUtils;
 import com.gdufe.campus.websocket.handler.QRCodeLoginHandler;
@@ -23,7 +26,10 @@ import org.springframework.web.socket.WebSocketSession;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 
 @Controller
@@ -32,7 +38,7 @@ import java.util.Map;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
     @Autowired
     EmailConfig emailConfig;
 
@@ -62,6 +68,10 @@ public class UserController {
         return model;
     }
 
+    /**
+     *手机端请求
+     * 确定同意或者拒绝
+     */
     @ResponseBody
     @PostMapping("/qrlogin/authorize")
     public ResultVO authorize(@RequestBody MobilePassVO mobilePassVO, HttpServletRequest request) throws IOException {
@@ -80,7 +90,10 @@ public class UserController {
         return ResultVOUtil.success();
     }
 
-
+    /**
+     *完成操作后
+     * 手机/PC分别的操作
+     */
     @GetMapping("/home")
     public ModelAndView homePage(HttpServletRequest request,HttpSession session) {
         ModelAndView model = new ModelAndView();
@@ -130,7 +143,9 @@ public class UserController {
             session.setAttribute("loginUser", user);
 
         } catch (BusinessException e) {
-            map.put("msg", ResultEnum.PASSWORD_ERROR.getMessage());
+            map.put("msg", e);
+            return ResultVOUtil.error(e.getCode(),e.getMessage());
+
         }
         return ResultVOUtil.success();
     }
@@ -173,7 +188,11 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/register")
-    public ResultVO register(@RequestBody UserVO user) {
+    public ResultVO register(@RequestBody UserVO user,HttpServletRequest request) {
+        Boolean result = MyCaptchaUtil.check(user.getCode(), request);
+        if (!result){
+            return ResultVOUtil.error(ResultEnum.CODE_ERROR);
+        }
         if (user == null|| StringUtils.isNullOrEmpty(user.getAccount())) {
             log.error("[用户注册] 用户注册参数为空");
             throw new BusinessException(ResultEnum.PARAM_EMPTY);
@@ -185,31 +204,17 @@ public class UserController {
     }
 
 
-    @ResponseBody
-    @PostMapping("/email")
-    public ResultVO sendEmail() {
-        try {
-            //TODO 邮箱激活头尾去弄,只打通邮件发送
-            HtmlEmail email = new HtmlEmail();//不用更改
-            email.setHostName(emailConfig.getHostName());//需要修改，126邮箱为smtp.126.com,163邮箱为163.smtp.com，QQ为smtp.qq.com
-            email.setCharset("UTF-8");
-            email.addTo("2472937751@qq.com");// 收件地址
-
-            email.setFrom(emailConfig.getSendFromEmailAddress(), emailConfig.getSendFromName());//此处填邮箱地址和用户名,用户名可以任意填写
-
-            email.setAuthentication(emailConfig.getSendFromEmailAddress(), emailConfig.getEmailPassword());//此处填写邮箱地址和客户端授权码
-
-            email.setSubject(emailConfig.getEmailTitle());//此处填写邮件名，邮件名可任意填写
-            email.setMsg("<a herf='http://braverymall.cn/frontactiveAcount?mail.key=9bdeb4d3-c60b-4c9b-8ec7-ef06f7ad7640'>点击激活账号:</a>\n" +
-                    "如果无法点击,使用以下地址\n" +
-                    "http://braverymall.cn/frontactiveAcount?mail.key=9bdeb4d3-c60b-4c9b-8ec7-ef06f7ad7640");//此处填写邮件内容
-            email.send();
-
-            return ResultVOUtil.success();
-        } catch (Exception e) {
-            log.error("[邮箱激活] 邮箱激活失败");
+    @GetMapping("/active")
+    public ModelAndView active(@RequestParam String account,@RequestParam String key) {
+        ModelAndView modelAndView = new ModelAndView();
+        try{
+            userService.active(account,key);
+        }catch (BusinessException e){
+            modelAndView.setViewName("redirect:/user/loginPage");
+            return modelAndView;
         }
-        return ResultVOUtil.error(ResultEnum.EMAIL_ERROR.getCode(), ResultEnum.EMAIL_ERROR.getMessage());
+        modelAndView.setViewName("user/active");
+        return modelAndView;
     }
 
 }

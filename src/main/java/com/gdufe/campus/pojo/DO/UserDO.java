@@ -17,5 +17,7 @@ public class UserDO {
 
     private String headImg;
 
+    private String active;
+
 
 }

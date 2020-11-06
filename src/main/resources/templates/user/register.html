@@ -10,18 +10,20 @@
     <link th:href="@{/css/signin.css}" rel="stylesheet">
   </head>
 <style>
-    #form{
-        margin-bottom: 120px;
-    }
+    /*#form{*/
+        /*margin-bottom: 120px;*/
+    /*}*/
 </style>
 <body class="text-center">
 <form id="form"   class="form-signin">
-    <img class="mb-4" style="width: 110px; margin-top: 65px;margin-bottom: 15px" th:src="@{'/images/gdufe.jpg'}" alt="gdufe.jpg" >
+    <img class="mb-4" style="width: 110px; margin-top: 100px;margin-bottom: 15px" th:src="@{'/images/gdufe.jpg'}" alt="gdufe.jpg" >
     <h1 class="h3 mb-3 font-weight-normal">Please register in</h1>
     <input type="text" class="form-control" @blur="check()" v-model="account" name="username" placeholder="账号" required="required" autofocus="">
     <div style="color: red">{{msg}}</div>
     <br>
     <input type="text" class="form-control" v-model="username" name="name" placeholder="昵称" required="required">
+    <br>
+    <input type="text" class="form-control" v-model="email" name="email" placeholder="邮箱" required="required">
     <br>
     <input type="password" class="form-control" v-model="password"  name="password"
            placeholder="请输入密码" required="required">
@@ -30,7 +32,15 @@
            placeholder="请再次输入密码" required="required">
     <div class="checkbox mb-3">
     </div>
-    <button class="btn btn-lg btn-success btn-block" type="button"@click="register()"  >注册</button>
+   <div style="margin-right: 45%;margin-bottom: 3px;">
+    <span style="color: dodgerblue">验证码&nbsp;&nbsp;</span>
+    <span style="color: red">(不区分大小写)</span>
+   </div>
+    <!--<br>-->
+    <input v-model="code" style=" display:inline-block; width: 130px;"
+           type="text" class="form-control" placeholder="五位验证码">
+    <img id="codeImg"  style="margin-left: 10%" src="/captcha/image">
+    <button style="margin-top: 20px;" class="btn btn-lg btn-success btn-block" type="button"@click="register()"  >注册</button>
 
 </form>
 <style>
@@ -44,8 +54,10 @@
             account: '',
             username:'',
             password: '',
+            email:'',
             pw: '',
             msg:'',
+            code:'',
         },
         watch: {
             name: function (val) {
@@ -82,15 +94,15 @@
             },
             register: function () {
                 const self = this;
+                if (self.code == '') {
+                    alert('请输入验证码');
+                    return
+                }
                 if (self.account == '') {
                     alert('用户名不能为空');
                     return
                 }
-                if (self.password == '') {
-                    alert('密码不能为空');
-                    return
-                }
-                if (self.pw == '') {
+                if (self.password == ''||self.pw == '') {
                     alert('密码不能为空');
                     return
                 }
@@ -102,20 +114,28 @@
                 self.$http.post(url, {
                     'account': self.account,
                     'username':self.username,
-                    'password': self.password
+                    'password': self.password,
+                    'email':self.email,
+                    'code':self.code,
                 }).then(function (response) {
                     var res = response.data;
                     if (res.code == 1000) {
-                        alert("注册成功!!!,现在去登录吧.");
+                        alert("注册成功,请先去邮箱激活账号!");
                         window.location.href = "/user/loginPage";
-                    } else if (res.code == 100002) {
-                        modal('账号不存在或密码错误', 2000);
-                    } else if (res.code == 200005) {
-                        modal('账号被禁用,请联系管理员', 2000);
                     } else if(res.code==5) {
                         var m ='账号已存在';
                         self.msg=m;
+                    }else if (res.code == 4) {
+                        self.$http.get('/captcha/image').then(function (response) {
+                            $("#codeImg").attr('src', '/captcha/image');
+                        })
+                        alert(res.msg);
                     }
+                    else  {
+                        var m ='未知错误';
+                        self.msg=m;
+                    }
+
                 })
             }
         }
