@@ -9,5 +9,5 @@ import lombok.Data;
 
 @Data
 public class XAxis {
-    private String[] data;
+    private int[] data;
 }

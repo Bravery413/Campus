@@ -83,14 +83,13 @@
             }
         },
         mounted: function () {
-
             this.getData();
             if (this.timer) {
                 clearInterval(this.timer);
             } else {
                 this.timer = setInterval(() => {
                     this.getData();
-                }, 200);
+                }, 500);
             }
         },
         watch: {
@@ -121,6 +120,7 @@
                     var res = responce.data;
                     if (res.code == 1000) {
                         this.option.series = res.data.series;
+                        this.option.xAxis=res.data.xaxis;
                         console.log(this.option.series.data)
                         // 指定图表的配置项和数据
                         this.chart.setOption(this.option);

@@ -19,7 +19,7 @@ import java.util.Random;
 
 @Controller()
 public class SortController {
-    static int[] qus = {86, 21, 41, 50, 62, 40};
+    static int[] qus = getRandom(10,100);
     static int i = 0;
     static int j = 0;
 
@@ -32,7 +32,7 @@ public class SortController {
     @ResponseBody
     @GetMapping("date")
     public ResultVO lessonDetail() {
-        getNew();
+//        getNew();
         System.out.println(i);
         System.out.println(j);
         Title title = new Title();
@@ -69,7 +69,7 @@ public class SortController {
 
         XAxis xAxis = new XAxis();
         String[] str1 = {"衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"};
-        xAxis.setData(str1);
+        xAxis.setData(qus);
 
         YAxis yAxis = new YAxis();
         yAxis.setObj(new Object());
@@ -103,11 +103,13 @@ public class SortController {
     }
 
     public static void getNew() {
+
         if (i >= 6) {
-            qus = getRandom(6, 100);
+            qus = getRandom(10, 100);
             i=0;
             j=0;
         }
+
 
     }
 
