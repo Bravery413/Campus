@@ -32,7 +32,7 @@ public class SortController {
     @ResponseBody
     @GetMapping("date")
     public ResultVO lessonDetail() {
-//        getNew();
+        getNew();
         System.out.println(i);
         System.out.println(j);
         Title title = new Title();
