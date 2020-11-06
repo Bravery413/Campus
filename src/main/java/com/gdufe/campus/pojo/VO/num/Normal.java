@@ -9,5 +9,5 @@ import lombok.Data;
 
 @Data
 public class Normal {
-    private String[] color;
+    private String color;
 }

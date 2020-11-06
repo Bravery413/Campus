@@ -10,4 +10,5 @@ import lombok.Data;
 @Data
 public class ItemStyle {
     private Normal normal;
+    private String color;
 }

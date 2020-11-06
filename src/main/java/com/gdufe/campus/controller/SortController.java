@@ -83,17 +83,31 @@ public class SortController {
         Series series = new Series();
         series.setName("销量");
         series.setType("bar");
-        bubleSort(true);
-        series.setData(qus);
         series.setMarkLine(markPoint);
 
-        ItemStyle itemStyle = new ItemStyle();
-        Normal normal = new Normal();
-//        String[] color = {"#c23531", "#2f4554", "#61a0a8", "#d48265", "#91c7ae", "#749f83", "#ca8622", "#bda29a", "#6e7074", "#546570"};
-        String[] color = { "#91c7ae"};
-        normal.setColor(color);
-        itemStyle.setNormal(normal);
-        series.setItemStyle(itemStyle);
+        bubleSort(true);
+//        series.setData(qus);
+//        series.setData();
+        Datas[] datas = new Datas[qus.length];
+        for (int k = 0; k < qus.length; k++) {
+            Datas d = new Datas();
+            d.setValue(qus[k]);
+            if (k == j) {
+                ItemStyle itemStyle = new ItemStyle();
+                itemStyle.setColor("blue");
+                d.setItemStyle(itemStyle);
+            }
+            datas[k] = d;
+        }
+        series.setData(datas);
+
+//        ItemStyle itemStyle = new ItemStyle();
+//        Normal normal = new Normal();
+////        String[] color = {"#c23531", "#2f4554", "#61a0a8", "#d48265", "#91c7ae", "#749f83", "#ca8622", "#bda29a", "#6e7074", "#546570"};
+//        String[] color = { "#91c7ae"};
+//        normal.setColor(color);
+//        itemStyle.setNormal(normal);
+//        series.setItemStyle(itemStyle);
 
         Legend legend = new Legend();
         legend.setData(new String[]{"销量"});
