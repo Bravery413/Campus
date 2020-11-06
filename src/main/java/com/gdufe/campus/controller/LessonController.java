@@ -59,6 +59,18 @@ public class LessonController {
         return ResultVOUtil.success(lessonDTOS);
     }
 
+    @GetMapping("/testPage")
+    public String testPage() {
+        return "lesson/modalDialog";
+    }
+
+    @ResponseBody
+    @GetMapping("/test")
+    public ResultVO test() {
+        List<LessonDTO> lessonDTOS = lessonService.listLessons();
+        return ResultVOUtil.success(lessonDTOS);
+    }
+
     @ResponseBody
     @PostMapping("/detail")
     public ResultVO lessonDetail(@RequestParam Long lid) {
