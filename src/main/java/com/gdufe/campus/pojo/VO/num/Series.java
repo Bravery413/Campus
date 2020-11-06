@@ -14,4 +14,5 @@ public class Series {
     private String type;
     private PointOrLine markPoint;
     private PointOrLine markLine;
+    private ItemStyle itemStyle;
 }

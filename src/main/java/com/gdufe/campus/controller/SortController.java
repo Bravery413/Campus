@@ -19,7 +19,7 @@ import java.util.Random;
 
 @Controller()
 public class SortController {
-    static int[] qus = getRandom(10,100);
+    static int[] qus = getRandom(10, 100);
     static int i = 0;
     static int j = 0;
 
@@ -87,6 +87,14 @@ public class SortController {
         series.setData(qus);
         series.setMarkLine(markPoint);
 
+        ItemStyle itemStyle = new ItemStyle();
+        Normal normal = new Normal();
+//        String[] color = {"#c23531", "#2f4554", "#61a0a8", "#d48265", "#91c7ae", "#749f83", "#ca8622", "#bda29a", "#6e7074", "#546570"};
+        String[] color = { "#91c7ae"};
+        normal.setColor(color);
+        itemStyle.setNormal(normal);
+        series.setItemStyle(itemStyle);
+
         Legend legend = new Legend();
         legend.setData(new String[]{"销量"});
 
@@ -98,6 +106,7 @@ public class SortController {
 //        option.setYAxis(yAxis);
         option.setLegend(legend);
         option.setSeries(series);
+        option.setIndex(j);
 
         return ResultVOUtil.success(option);
     }
@@ -106,8 +115,8 @@ public class SortController {
 
         if (i >= 6) {
             qus = getRandom(10, 100);
-            i=0;
-            j=0;
+            i = 0;
+            j = 0;
         }
 
 
@@ -142,7 +151,7 @@ public class SortController {
                     return;
                 }
             }
-            j=0;
+            j = 0;
         }
     }
 }

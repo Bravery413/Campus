@@ -16,4 +16,5 @@ public class Option {
     private XAxis xAxis;
     private YAxis yAxis;
     private Series series;
+    private Integer index;
 }
